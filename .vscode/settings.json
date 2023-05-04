@@ -1,0 +1,16 @@
+{
+    "cmake.setBuildTypeOnMultiConfig": true,
+    "cmake.configureSettings": {
+        "BOARD": "ctlst",
+        "CLI_PORT": "TELEM2",
+        "CLI_BAUDRATE": "57600",
+        "OS_MONITOR": "ON",
+        "MAINTENANCE_MODE": "OFF"
+    },
+    "cortex-debug.armToolchainPath": "/usr/bin",
+    "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+    "cortex-debug.gdbPath": "/usr/bin/arm-none-eabi-gdb",
+    "python.analysis.extraPaths": [
+        "./catpilot/c-atom/eswb/pytools"
+    ],
+}
