@@ -22,13 +22,16 @@
             <param alias="period">1000</param>
             <param alias="max">750</param>
             <param alias="min">250</param>
-            <param alias="bipolar">false</param>
+            <param alias="bipolar">true</param>
         </f>
         <f name="pwm_in_ch1" by_spec="ctlst.io.pwm_in">
             <param alias="channel">1</param>
             <param alias="max">750</param>
             <param alias="min">250</param>
-            <param alias="bipolar">false</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="zero" by_spec="core.source.constant">
+            <param alias="value">0.0</param>
         </f>
     </functions>
 
