@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<flow>
+    <spec name="io_gpio">
+        <inputs>
+            <i alias="ch0" type="core.type.f64"/>
+            <i alias="ch1" type="core.type.f64"/>
+            <i alias="ch2" type="core.type.f64"/>
+            <i alias="ch3" type="core.type.f64"/>
+        </inputs>
+    </spec>
+
+    <functions>
+        <f name="gpio_ch0" by_spec="ctlst.io.gpio">
+            <in alias="input_float">inputs/ch0</in>
+        </f>
+        <f name="gpio_ch1" by_spec="ctlst.io.gpio">
+            <in alias="input_float">inputs/ch1</in>
+        </f>
+        <f name="gpio_ch2" by_spec="ctlst.io.gpio">
+            <in alias="input_float">inputs/ch2</in>
+        </f>
+        <f name="gpio_ch3" by_spec="ctlst.io.gpio">
+            <in alias="input_float">inputs/ch3</in>
+        </f>
+    </functions>
+</flow>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <flow>
-    <spec name="sens_adc">
+    <spec name="io_adc">
         <inputs>
         </inputs>
 
@@ -28,97 +28,81 @@
     <functions>
         <f name="adc_ch0" by_spec="ctlst.io.adc">
             <param alias="channel">0</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch1" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch2" by_spec="ctlst.io.adc">
             <param alias="channel">2</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch3" by_spec="ctlst.io.adc">
             <param alias="channel">3</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch4" by_spec="ctlst.io.adc">
             <param alias="channel">4</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch5" by_spec="ctlst.io.adc">
             <param alias="channel">5</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch6" by_spec="ctlst.io.adc">
             <param alias="channel">6</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch7" by_spec="ctlst.io.adc">
             <param alias="channel">7</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch8" by_spec="ctlst.io.adc">
             <param alias="channel">8</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch9" by_spec="ctlst.io.adc">
             <param alias="channel">9</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch10" by_spec="ctlst.io.adc">
             <param alias="channel">10</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch11" by_spec="ctlst.io.adc">
             <param alias="channel">11</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch12" by_spec="ctlst.io.adc">
             <param alias="channel">12</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch13" by_spec="ctlst.io.adc">
             <param alias="channel">13</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch14" by_spec="ctlst.io.adc">
             <param alias="channel">14</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>
         <f name="adc_ch15" by_spec="ctlst.io.adc">
             <param alias="channel">15</param>
-            <param alias="period">500</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
         </f>

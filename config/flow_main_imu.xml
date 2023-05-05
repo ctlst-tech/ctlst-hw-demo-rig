@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <flow>
-    <spec name="sensors">
+    <spec name="main_imu">
         <outputs>
             <o alias="a_raw" type="core.type.v3f64"/>
             <o alias="omega_raw" type="core.type.v3f64"/>
@@ -15,7 +15,7 @@
     </spec>
 
     <functions>
-        <f name="imu1" by_spec="ctlst.sensors.imu">
+        <f name="imu1" by_spec="ctlst.main.imu">
             <param alias="freq">500</param>
         </f>
 
