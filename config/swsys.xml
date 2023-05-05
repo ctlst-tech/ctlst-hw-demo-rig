@@ -40,7 +40,7 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="6" clk_method="timer" clk_period="100">
+    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="6" clk_method="timer" clk_period="1000">
         <connect>
             <in alias="ch0">gen_bus/mean1</out>
             <in alias="ch1">gen_bus/mean1</out>

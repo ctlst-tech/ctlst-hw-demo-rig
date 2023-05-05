@@ -12,9 +12,10 @@
 
     <functions>
         <f name="gpio_ch0" by_spec="ctlst.io.gpio">
-            <in alias="input_float">inputs/ch0</in>
+            <!-- <in alias="input_float">inputs/ch0</in> -->
+            <param alias="channel">0</param>
         </f>
-        <f name="gpio_ch1" by_spec="ctlst.io.gpio">
+        <!-- <f name="gpio_ch1" by_spec="ctlst.io.gpio">
             <in alias="input_float">inputs/ch1</in>
         </f>
         <f name="gpio_ch2" by_spec="ctlst.io.gpio">
@@ -22,6 +23,6 @@
         </f>
         <f name="gpio_ch3" by_spec="ctlst.io.gpio">
             <in alias="input_float">inputs/ch3</in>
-        </f>
+        </f> -->
     </functions>
 </flow>
