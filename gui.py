@@ -36,6 +36,8 @@ mon.bridge_sdtl_udp(ip_in='0.0.0.0', port_in='20001',
                     bridge_to='telemetry',
                     additional_channels=[cmd_sdtl_channel])
 
+
+# Data sources
 ax = DataSourceEswbTopic('ax', path=f'{basic_topics_root}/nav/ang/a/x')
 ay = DataSourceEswbTopic('ay', path=f'{basic_topics_root}/nav/ang/a/y')
 az = DataSourceEswbTopic('az', path=f'{basic_topics_root}/nav/ang/a/z')
@@ -78,8 +80,17 @@ io_adc2_ch5 = DataSourceEswbTopic('io_adc2_ch5', path=f'{basic_topics_root}/dev/
 io_adc2_ch6 = DataSourceEswbTopic('io_adc2_ch6', path=f'{basic_topics_root}/dev/adc/voltage/ch14')
 io_adc2_ch7 = DataSourceEswbTopic('io_adc2_ch7', path=f'{basic_topics_root}/dev/adc/voltage/ch15')
 
-sin = EwChart([DataSourceEswbTopic('sin1', path=f'{basic_topics_root}/hk/sin1'),
-               DataSourceEswbTopic('sin2', path=f'{basic_topics_root}/hk/sin2')])
+sin1 = DataSourceEswbTopic('sin1', path=f'{basic_topics_root}/hk/gen/sin1')
+sin2 = DataSourceEswbTopic('sin2', path=f'{basic_topics_root}/hk/gen/sin2')
+mean1 = DataSourceEswbTopic('mean1', path=f'{basic_topics_root}/hk/gen/mean1')
+mean2 = DataSourceEswbTopic('mean2', path=f'{basic_topics_root}/hk/gen/mean2')
+
+
+# Charts
+sin1 = EwChart([sin1], title="Sin1")
+sin2 = EwChart([sin2], title="Sin2")
+mean1 = EwChart([mean1], title="Mean1")
+mean2 = EwChart([mean2], title="Mean2")
 
 accel = EwChart([ax, ay, az], title="Accelerations",
                 labels={'left': 'm/s²', 'bottom': 'time, s'})
@@ -117,12 +128,17 @@ io_adc2_ch5 = EwChart([io_adc2_ch5], title="IO ADC2 ch5")
 io_adc2_ch6 = EwChart([io_adc2_ch6], title="IO ADC2 ch6")
 io_adc2_ch7 = EwChart([io_adc2_ch7], title="IO ADC2 ch7")
 
+
+# Add widgets
 main_tab.add_widget(EwGroup([accel, gyro, roll_pitch, accel_gyro_temp]))
 main_tab.add_widget(EwGroup([pstat_pdyn, pdiff, adc_temp, altitude_bar, airspeed]))
 main_tab.add_widget(EwGroup([io_adc1_ch0, io_adc1_ch1, io_adc1_ch2, io_adc1_ch3, io_adc1_ch4, io_adc1_ch5, io_adc1_ch6, io_adc1_ch7]))
 main_tab.add_widget(EwGroup([io_adc2_ch0, io_adc2_ch1, io_adc2_ch2, io_adc2_ch3, io_adc2_ch4, io_adc2_ch5, io_adc2_ch6, io_adc2_ch7]))
 
-hk_tab.add_widget(sin)
+hk_tab.add_widget(sin1)
+hk_tab.add_widget(sin2)
+hk_tab.add_widget(mean1)
+hk_tab.add_widget(mean2)
 
 sdtl_tab.add_widget(EwGroup([mon.get_stat_widget()]))
 

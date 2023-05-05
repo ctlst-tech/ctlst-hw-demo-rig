@@ -3,6 +3,7 @@
 <swsys name="drone">
     <bus name="gcu_bus" eq_channel="0" max_topics="128">
         <event_queue buffer_size="512" size="48"/>
+        <dir name="hk" eq_channel="16"/>
         <dir name="nav" eq_channel="16"/>
         <dir name="dev" eq_channel="16">
             <dir name="imu" eq_channel="16"/>
@@ -16,7 +17,7 @@
     <bus name="adc_bus" eq_channel="1" max_topics="128"/>
     <bus name="gpio_bus" eq_channel="1" max_topics="128"/>
 
-    <task type="flow" config="flow_generators.xml" name="generators" priority="1" clk_method="timer" clk_period="10">
+    <task type="flow" config="flow_generators.xml" name="generators" priority="4" clk_method="timer" clk_period="10">
         <connect>
             <out alias="sin1, sin2, mean1, mean2">gen_bus/$alias</out>
         </connect>
@@ -30,7 +31,7 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_adc.xml" name="io_adc" priority="6" clk_method="timer" clk_period="20">
+    <task type="flow" config="flow_io_adc.xml" name="io_adc" priority="6" clk_method="timer" clk_period="100">
         <connect>
             <out alias="ch0, ch1, ch2, ch3">adc_bus/$alias</out>
             <out alias="ch4, ch5, ch6, ch7">adc_bus/$alias</out>
@@ -39,7 +40,7 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="6" clk_method="timer" clk_period="20">
+    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="6" clk_method="timer" clk_period="100">
         <connect>
             <in alias="ch0">gen_bus/mean1</out>
             <in alias="ch1">gen_bus/mean1</out>
@@ -86,16 +87,20 @@
     </task>
 
 
-    <bridge name="ang" priority="2" clk_method="timer" clk_period="20" to="gcu_bus/nav">
+    <bridge name="gen" priority="3" clk_method="timer" clk_period="20" to="gcu_bus/hk">
+        <source alias="sin1, sin2, mean1, mean2">gen_bus/$alias</source>
+    </bridge>
+
+    <bridge name="ang" priority="3" clk_method="timer" clk_period="20" to="gcu_bus/nav">
         <source alias="omega, a">nav_bus/$alias</source>
         <source alias="roll, pitch, yaw, azimuth">nav_bus/$alias</source>
     </bridge>
 
-    <bridge name="pres" priority="2" clk_method="timer" clk_period="20" to="gcu_bus/nav">
+    <bridge name="pres" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/nav">
         <source alias="pstat, pdiff, pdyn">nav_bus/$alias</source>
     </bridge>
 
-    <bridge name="air" priority="2" clk_method="timer" clk_period="20" to="gcu_bus/nav">
+    <bridge name="air" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/nav">
         <source alias="altitude_bar, airspeed">nav_bus/$alias</source>
     </bridge>
 
