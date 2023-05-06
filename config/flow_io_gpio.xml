@@ -3,21 +3,71 @@
 <flow>
     <spec name="io_gpio">
         <inputs>
-            <i alias="ch0" type="core.type.f64"/>
-            <i alias="ch1" type="core.type.f64"/>
-            <i alias="ch2" type="core.type.f64"/>
-            <i alias="ch3" type="core.type.f64"/>
+            <i alias="servo" type="core.type.f64"/>
+            <i alias="engine" type="core.type.f64"/>
+            <i alias="out1" type="core.type.f64"/>
+            <i alias="out2" type="core.type.f64"/>
+            <i alias="relay" type="core.type.f64"/>
+            <i alias="phase" type="core.type.f64"/>
+            <i alias="overheat" type="core.type.f64"/>
+            <i alias="status" type="core.type.f64"/>
         </inputs>
 
         <outputs>
-            <o alias="period" type="core.type.u32"/>
-            <o alias="duty" type="core.type.f64"/>
-            <o alias="in" type="core.type.f64"/>
+            <o alias="button1" type="core.type.f64"/>
+            <o alias="button2" type="core.type.f64"/>
+            <o alias="button3" type="core.type.f64"/>
+            <o alias="button4" type="core.type.f64"/>
+            <o alias="hall1_period" type="core.type.u32"/>
+            <o alias="hall2_period" type="core.type.u32"/>
+            <o alias="hall3_period" type="core.type.u32"/>
+            <o alias="hall4_period" type="core.type.u32"/>
+            <o alias="in1" type="core.type.f64"/>
         </outputs>
     </spec>
 
     <functions>
-        <f name="pwm_out_ch0" by_spec="ctlst.io.pwm_out">
+        <f name="servo" by_spec="ctlst.io.pwm_out">
+            <in alias="input">inputs/servo</in>
+            <param alias="channel">0</param>
+            <param alias="period">20000</param>
+            <param alias="min">500</param>
+            <param alias="max">2500</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="engine" by_spec="ctlst.io.pwm_out">
+            <in alias="input">inputs/engine</in>
+            <param alias="channel">1</param>
+            <param alias="period">2000</param>
+            <param alias="min">250</param>
+            <param alias="max">750</param>
+            <param alias="bipolar">false</param>
+        </f>
+        <f name="out1" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/out1</in>
+            <param alias="channel">2</param>
+        </f>
+        <f name="out2" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/out2</in>
+            <param alias="channel">3</param>
+        </f>
+        <f name="relay" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/relay</in>
+            <param alias="channel">4</param>
+        </f>
+        <f name="phase" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/phase</in>
+            <param alias="channel">5</param>
+        </f>
+        <f name="overheat" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/overheat</in>
+            <param alias="channel">6</param>
+        </f>
+        <f name="status" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/status</in>
+            <param alias="channel">7</param>
+        </f>
+        <!-- <f name="pwm_out_ch0" by_spec="ctlst.io.pwm_out">
             <in alias="input">inputs/ch0</in>
             <param alias="channel">0</param>
             <param alias="period">1000</param>
@@ -30,22 +80,57 @@
             <param alias="max">750</param>
             <param alias="min">250</param>
             <param alias="bipolar">true</param>
+        </f> -->
+        <f name="button1" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">8</param>
         </f>
-        <f name="disc_out_ch2" by_spec="ctlst.io.gpio_out">
-            <in alias="input_float">inputs/ch2</in>
-            <param alias="channel">2</param>
+        <f name="button2" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">9</param>
         </f>
-        <f name="disc_in_ch3" by_spec="ctlst.io.gpio_in">
-            <param alias="channel">3</param>
+        <f name="button3" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">10</param>
         </f>
-        <f name="zero" by_spec="core.source.constant">
-            <param alias="value">0.0</param>
+        <f name="button4" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">11</param>
+        </f>
+        <f name="hall1" by_spec="ctlst.io.pwm_in">
+            <param alias="channel">12</param>
+            <param alias="max">750</param>
+            <param alias="min">250</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="hall2" by_spec="ctlst.io.pwm_in">
+            <param alias="channel">13</param>
+            <param alias="max">750</param>
+            <param alias="min">250</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="hall3" by_spec="ctlst.io.pwm_in">
+            <param alias="channel">14</param>
+            <param alias="max">750</param>
+            <param alias="min">250</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="hall4" by_spec="ctlst.io.pwm_in">
+            <param alias="channel">15</param>
+            <param alias="max">750</param>
+            <param alias="min">250</param>
+            <param alias="bipolar">true</param>
+        </f>
+        <f name="in1" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">16</param>
         </f>
     </functions>
 
     <link_outputs>
-        <link alias="period">pwm_in_ch1/period</link>
-        <link alias="duty">pwm_in_ch1/duty</link>
-        <link alias="in">disc_in_ch3/output</link>
+        <link alias="button1">button1/output</link>
+        <link alias="button2">button2/output</link>
+        <link alias="button3">button3/output</link>
+        <link alias="button4">button4/output</link>
+        <link alias="hall1_period">hall1/period</link>
+        <link alias="hall2_period">hall2/period</link>
+        <link alias="hall3_period">hall3/period</link>
+        <link alias="hall4_period">hall4/period</link>
+        <link alias="in1">in1/output</link>
     </link_outputs>
 </flow>

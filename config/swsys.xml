@@ -22,6 +22,7 @@
         </connect>
     </task>
 
+    <!-- Boards -->
     <task type="flow" config="flow_main_imu.xml" name="imu" priority="11" clk_method="freerun">
         <connect>
             <out alias="a_raw, omega_raw">nav_bus/$alias</out>
@@ -39,16 +40,22 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="6" clk_method="timer" clk_period="10">
+    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="12" clk_method="timer" clk_period="10">
         <connect>
-            <in alias="ch0">gen_bus/sin1</in>
-            <in alias="ch1">gen_bus/sin2</in>
-            <in alias="ch2">gen_bus/mean1</in>
-            <in alias="ch3">gen_bus/mean2</in>
-            <out alias="period, duty, in">io_bus/$alias</out>
+            <in alias="servo">gen_bus/sin1</in>
+            <in alias="engine">gen_bus/sin1</in>
+            <in alias="out1">gen_bus/mean1</in>
+            <in alias="out2">gen_bus/mean1</in>
+            <in alias="relay">gen_bus/mean1</in>
+            <in alias="phase">gen_bus/mean1</in>
+            <in alias="overheat">gen_bus/mean1</in>
+            <in alias="status">gen_bus/mean1</in>
+            <out alias="button1, button2, button3, button4, in1">io_bus/$alias</out>
+            <out alias="hall1_period, hall2_period, hall3_period, hall4_period">io_bus/$alias</out>
         </connect>
     </task>
 
+    <!-- Angles processing -->
     <task type="flow" config="flow_nav_imu_alignment.xml" name="nav_imu_alignement" priority="7" clk_method="timer" clk_period="100">
         <connect>
             <in alias="omega, a, azimuth">nav_bus/$alias</in>
@@ -87,11 +94,12 @@
     </task>
 
 
-    <bridge name="gen" priority="3" clk_method="timer" clk_period="20" to="gcu_bus/hk">
+    <!-- Bridges -->
+    <bridge name="gen" priority="3" clk_method="timer" clk_period="50" to="gcu_bus/hk">
         <source alias="sin1, sin2, mean1, mean2">gen_bus/$alias</source>
     </bridge>
 
-    <bridge name="ang" priority="3" clk_method="timer" clk_period="20" to="gcu_bus/nav">
+    <bridge name="ang" priority="4" clk_method="timer" clk_period="50" to="gcu_bus/nav">
         <source alias="omega, a">nav_bus/$alias</source>
         <source alias="roll, pitch, yaw, azimuth">nav_bus/$alias</source>
     </bridge>
@@ -104,11 +112,7 @@
         <source alias="altitude_bar, airspeed">nav_bus/$alias</source>
     </bridge>
 
-    <bridge name="t" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/imu">
-        <source alias="tadc, ta, tw">imu_bus/$alias</source>
-    </bridge>
-
-    <bridge name="adc" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/imu">
+    <bridge name="temp" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/imu">
         <source alias="tadc, ta, tw">imu_bus/$alias</source>
     </bridge>
 
@@ -119,10 +123,12 @@
         <source alias="ch12, ch13, ch14, ch15">io_bus/$alias</source>
     </bridge>
 
-    <bridge name="pwm_in" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/io">
-        <source alias="period, duty, in">io_bus/$alias</source>
+    <bridge name="digital" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/io">
+        <source alias="button1, button2, button3, button4, in1">io_bus/$alias</source>
+        <source alias="hall1_period, hall2_period, hall3_period, hall4_period">io_bus/$alias</source>
     </bridge>
 
+    <!-- Connection -->
     <service type="sdtl" name="gcu_link">
         <type value="udp"/>
 
