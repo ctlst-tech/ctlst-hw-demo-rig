@@ -82,6 +82,7 @@ io_adc2_ch7 = DataSourceEswbTopic('io_adc2_ch7', path=f'{basic_topics_root}/dev/
 
 io_pwm_in_period = DataSourceEswbTopic('io_pwm_in_period', path=f'{basic_topics_root}/dev/io/pwm_in/period')
 io_pwm_in_duty = DataSourceEswbTopic('io_pwm_in_duty', path=f'{basic_topics_root}/dev/io/pwm_in/duty')
+io_disc_in = DataSourceEswbTopic('io_pwm_in_duty', path=f'{basic_topics_root}/dev/io/pwm_in/in')
 
 sin1 = DataSourceEswbTopic('sin1', path=f'{basic_topics_root}/hk/gen/sin1')
 sin2 = DataSourceEswbTopic('sin2', path=f'{basic_topics_root}/hk/gen/sin2')
@@ -133,6 +134,7 @@ io_adc2_ch7 = EwChart([io_adc2_ch7], title="IO ADC2 ch7")
 
 io_pwm_in_period = EwChart([io_pwm_in_period], title="IO PWM IN period")
 io_pwm_in_duty = EwChart([io_pwm_in_duty], title="IO PWM IN duty")
+io_disc_in = EwChart([io_disc_in], title="IO DISC IN")
 
 
 # Add widgets
@@ -141,6 +143,7 @@ main_tab.add_widget(EwGroup([pstat_pdyn, pdiff, adc_temp, altitude_bar, airspeed
 main_tab.add_widget(EwGroup([io_adc1_ch0, io_adc1_ch1, io_adc1_ch2, io_adc1_ch3, io_adc1_ch4, io_adc1_ch5, io_adc1_ch6, io_adc1_ch7]))
 main_tab.add_widget(EwGroup([io_adc2_ch0, io_adc2_ch1, io_adc2_ch2, io_adc2_ch3, io_adc2_ch4, io_adc2_ch5, io_adc2_ch6, io_adc2_ch7]))
 main_tab.add_widget(EwGroup([io_pwm_in_period, io_pwm_in_duty]))
+main_tab.add_widget(EwGroup([io_disc_in]))
 
 hk_tab.add_widget(sin1)
 hk_tab.add_widget(sin2)

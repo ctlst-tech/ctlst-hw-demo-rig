@@ -45,7 +45,7 @@
             <in alias="ch1">gen_bus/sin2</in>
             <in alias="ch2">gen_bus/mean1</in>
             <in alias="ch3">gen_bus/mean2</in>
-            <out alias="period, duty">io_bus/$alias</out>
+            <out alias="period, duty, in">io_bus/$alias</out>
         </connect>
     </task>
 
@@ -120,7 +120,7 @@
     </bridge>
 
     <bridge name="pwm_in" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/dev/io">
-        <source alias="period, duty">io_bus/$alias</source>
+        <source alias="period, duty, in">io_bus/$alias</source>
     </bridge>
 
     <service type="sdtl" name="gcu_link">

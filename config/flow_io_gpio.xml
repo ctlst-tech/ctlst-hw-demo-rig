@@ -12,6 +12,7 @@
         <outputs>
             <o alias="period" type="core.type.u32"/>
             <o alias="duty" type="core.type.f64"/>
+            <o alias="in" type="core.type.f64"/>
         </outputs>
     </spec>
 
@@ -30,6 +31,13 @@
             <param alias="min">250</param>
             <param alias="bipolar">true</param>
         </f>
+        <f name="disc_out_ch2" by_spec="ctlst.io.gpio_out">
+            <in alias="input_float">inputs/ch2</in>
+            <param alias="channel">2</param>
+        </f>
+        <f name="disc_in_ch3" by_spec="ctlst.io.gpio_in">
+            <param alias="channel">3</param>
+        </f>
         <f name="zero" by_spec="core.source.constant">
             <param alias="value">0.0</param>
         </f>
@@ -38,5 +46,6 @@
     <link_outputs>
         <link alias="period">pwm_in_ch1/period</link>
         <link alias="duty">pwm_in_ch1/duty</link>
+        <link alias="in">disc_in_ch3/output</link>
     </link_outputs>
 </flow>
