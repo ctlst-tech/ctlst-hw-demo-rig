@@ -34,7 +34,7 @@ drone_topics_root = basic_topics_root + '/' + 'drone'
 
 cmd_sdtl_channel = SDTLchannel(name='cmd', ch_id=4, ch_type=SDTLchannelType.unrel)
 mon.bridge_sdtl_udp(ip_in='0.0.0.0', port_in='20001',
-                    ip_out='192.168.1.21', port_out='20000',
+                    ip_out=args.ip, port_out='20000',
                     bridge_to='telemetry',
                     additional_channels=[cmd_sdtl_channel])
 
