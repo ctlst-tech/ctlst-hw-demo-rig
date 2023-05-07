@@ -14,16 +14,16 @@
 
     <functions>
         <f name="sin_gen_1" by_spec="core.source.sin">
-            <param alias="period">1.0</param>
+            <param alias="period">0.1</param>
         </f>
         <f name="sin_gen_2" by_spec="core.source.sin">
-            <param alias="period">0.1</param>
+            <param alias="period">0.05</param>
         </f>
         <f name="mean_gen_1" by_spec="core.source.meander">
             <param alias="semi_period">100</param>
         </f>
         <f name="mean_gen_2" by_spec="core.source.meander">
-            <param alias="semi_period">1000</param>
+            <param alias="semi_period">25</param>
         </f>
     </functions>
 

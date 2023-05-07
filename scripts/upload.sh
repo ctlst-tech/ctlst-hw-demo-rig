@@ -42,6 +42,7 @@ quote USER $USER
 quote PASS $PASSWD
 bin
 chmod 777 $USCRIPT
+chmod 777 $UBIN
 quit
 END_SCRIPT
 

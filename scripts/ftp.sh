@@ -18,6 +18,7 @@ quote USER $USER
 quote PASS $PASSWD
 bin
 put $FILE $UFILE
+chmod 777 $UFILE
 quit
 END_SCRIPT
 
