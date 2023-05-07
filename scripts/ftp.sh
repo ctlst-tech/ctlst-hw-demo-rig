@@ -14,7 +14,6 @@ FILE=$2
 UFILE=$3
 
 ftp -n $HOST $PORT << END_SCRIPT
-verbose
 quote USER $USER
 quote PASS $PASSWD
 bin

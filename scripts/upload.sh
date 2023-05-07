@@ -36,6 +36,15 @@ END_SCRIPT
 sh ${ftp} ${HOST} ${BIN} ${UBIN}
 sh ${ftp} ${HOST} ${SCRIPT} ${USCRIPT}
 
+ftp -n $HOST $PORT << END_SCRIPT
+verbose
+quote USER $USER
+quote PASS $PASSWD
+bin
+chmod 777 $USCRIPT
+quit
+END_SCRIPT
+
 for FILE in ./${SUBDIR}/*
 do
     name=`echo $FILE | cut -c 10-`
