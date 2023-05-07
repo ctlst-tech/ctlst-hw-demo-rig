@@ -196,12 +196,12 @@ adc_tab.add_widget(EwGroup([io_adc2_ch4, io_adc2_ch5, io_adc2_ch6, io_adc2_ch7])
 
 io_tab.add_widget(EwGroup([io_button1, io_button2, io_button3, io_button4]))
 io_tab.add_widget(EwGroup([io_hall1, io_hall2, io_hall3, io_hall4]))
+io_tab.add_widget(EwGroup([io_in1, io_in2, io_in3, io_in4, io_in5, io_in6]))
 io_tab.add_widget(EwGroup([io_cps1_period, io_cps1_step, io_cps1_tooth]))
-io_tab.add_widget(EwGroup([io_in1, io_in2, io_in3, io_in4, io_in5]))
 
 gen_tab.add_widget(sin1)
-gen_tab.add_widget(sin2)
 gen_tab.add_widget(mean1)
+gen_tab.add_widget(sin2)
 gen_tab.add_widget(mean2)
 
 sdtl_tab.add_widget(EwGroup([mon.get_stat_widget()]))

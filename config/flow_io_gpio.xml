@@ -143,11 +143,15 @@
         <f name="in1" by_spec="ctlst.io.gpio_in">
             <param alias="channel">11</param>
         </f>
-        <f name="cps1" by_spec="ctlst.io.phase_in">
+        <!-- <f name="cps1" by_spec="ctlst.io.phase_in">
             <param alias="channel">10</param>
             <param alias="total_teeth">32</param>
             <param alias="missing_tooth">2</param>
             <param alias="tooth_step">4</param>
+        </f> -->
+
+        <f name="stub" by_spec="core.source.constant">
+            <param alias="value">0</param>
         </f>
 
         <!-- For testing -->
@@ -163,9 +167,9 @@
         <f name="in5" by_spec="ctlst.io.gpio_in">
             <param alias="channel">9</param>
         </f>
-        <!-- <f name="in6" by_spec="ctlst.io.gpio_in">
+        <f name="in6" by_spec="ctlst.io.gpio_in">
             <param alias="channel">10</param>
-        </f> -->
+        </f>
     </functions>
 
     <link_outputs>
@@ -177,9 +181,9 @@
         <link alias="hall2_period">hall2/output</link>
         <link alias="hall3_period">hall3/output</link>
         <link alias="hall4_period">hall4/output</link>
-        <link alias="cps1_period">cps1/period</link>
-        <link alias="cps1_tooth">cps1/tooth</link>
-        <link alias="cps1_step">cps1/step</link>
+        <link alias="cps1_period">stub/output</link>
+        <link alias="cps1_tooth">stub/output</link>
+        <link alias="cps1_step">stub/output</link>
         <link alias="in1">in1/output</link>
         <link alias="in2">in2/output</link>
         <link alias="in3">in3/output</link>

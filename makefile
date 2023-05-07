@@ -13,7 +13,7 @@ bblocks:
 
 ctlst:
 	@echo Build
-	rm -r -f build && cmake -DBOARD=ctlst -DCMAKE_BUILD_TYPE=Debug -B build && cd build && make catom-launcher
+	rm -r -f build && cmake -DBOARD=ctlst -DCMAKE_BUILD_TYPE=Release -B build && cd build && make catom-launcher
 
 upload:
 	@echo Upload config and firmware
