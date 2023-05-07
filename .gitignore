@@ -1,0 +1,12 @@
+*.o
+build/
+atomics_reg.c
+atomics.cmake
+xml_inline_cfgs.c
+bblocks.xml
+__pycache__
+.idea/
+cmake-build-*/
+.cortex-debug.peripherals.state.json
+.cortex-debug.registers.state.json
+.DS_Store
