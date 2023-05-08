@@ -10,3 +10,4 @@ cmake-build-*/
 .cortex-debug.peripherals.state.json
 .cortex-debug.registers.state.json
 .DS_Store
+py-venv
