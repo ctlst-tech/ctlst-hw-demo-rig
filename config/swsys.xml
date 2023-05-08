@@ -35,7 +35,9 @@
     <task type="flow" config="flow_io_adc.xml" name="io_adc" priority="6" clk_method="timer" clk_period="100">
         <connect>
             <out alias="thermistor_1, thermistor_2, thermistor_3, thermistor_4">io_bus/$alias</out>
+            <out alias="thermistor_5, thermistor_6, thermistor_7, thermistor_8">io_bus/$alias</out>
             <out alias="thermocouple_1, thermocouple_2, thermocouple_3, thermocouple_4">io_bus/$alias</out>
+            <out alias="thermocouple_5, thermocouple_6, thermocouple_7, thermocouple_8">io_bus/$alias</out>
             <out alias="r_right, r_left">io_bus/$alias</out>
         </connect>
     </task>
@@ -125,7 +127,9 @@
 
     <bridge name="voltage" priority="3" clk_method="timer" clk_period="50" to="gcu_bus/dev/io">
         <source alias="thermistor_1, thermistor_2, thermistor_3, thermistor_4">io_bus/$alias</source>
+        <source alias="thermistor_5, thermistor_6, thermistor_7, thermistor_8">io_bus/$alias</source>
         <source alias="thermocouple_1, thermocouple_2, thermocouple_3, thermocouple_4">io_bus/$alias</source>
+        <source alias="thermocouple_5, thermocouple_6, thermocouple_7, thermocouple_8">io_bus/$alias</source>
         <source alias="r_right, r_left">io_bus/$alias</source>
     </bridge>
 
