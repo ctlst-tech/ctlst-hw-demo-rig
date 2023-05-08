@@ -25,48 +25,112 @@
             <param alias="mux">0</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermistor_2" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">1</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermistor_3" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">2</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermistor_4" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">3</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermistor_5" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">0</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermistor_6" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">1</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermistor_7" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">2</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermistor_8" by_spec="ctlst.io.adc">
+            <param alias="channel">8</param>
+            <param alias="mux">3</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermocouple_1" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">4</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermocouple_2" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">5</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermocouple_3" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">6</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="thermocouple_4" by_spec="ctlst.io.adc">
             <param alias="channel">1</param>
             <param alias="mux">7</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermocouple_5" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">4</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermocouple_6" by_spec="ctlst.io.adc">
+            <param alias="channel">8</param>
+            <param alias="mux">5</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermocouple_7" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">6</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
+        </f>
+        <f name="thermocouple_8" by_spec="ctlst.io.adc">
+            <param alias="channel">9</param>
+            <param alias="mux">7</param>
+            <param alias="bias">0</param>
+            <param alias="scale">1</param>
+            <param alias="range">10</param>
         </f>
         <f name="r_right" by_spec="ctlst.io.adc">
             <param alias="channel">3</param>

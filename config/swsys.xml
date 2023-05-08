@@ -46,11 +46,11 @@
             <in alias="l2">gen_bus/mean1</in>
             <in alias="l3">gen_bus/mean1</in>
             <in alias="l4">gen_bus/mean1</in>
-            <in alias="servo">gen_bus/mean1</in>
-            <in alias="motor">gen_bus/mean1</in>
+            <in alias="servo">gen_bus/sin1</in>
+            <in alias="motor">gen_bus/sin2</in>
             <in alias="out1">gen_bus/mean1</in>
             <in alias="out2">gen_bus/mean1</in>
-            <in alias="relay">gen_bus/mean1</in>
+            <in alias="relay">gen_bus/mean2</in>
             <in alias="phase">gen_bus/mean1</in>
             <in alias="overheat_tc">gen_bus/mean1</in>
             <in alias="overheat_th">gen_bus/mean1</in>
