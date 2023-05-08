@@ -108,6 +108,15 @@
             <in alias="input_float">inputs/status</in>
             <param alias="channel">11</param>
         </f>
+        <!-- <f name="control" by_spec="ctlst.io.phase_out">
+            <param alias="channel">10</param>
+            <param alias="invert">0</param>
+            <param alias="time_mode">1</param>
+            <param alias="sync_channel">9</param>
+            <param alias="tooth">5</param>
+            <param alias="phase_on">6</param>
+            <param alias="phase_off">4</param>
+        </f> -->
 
         <!-- Inputs -->
         <f name="button1" by_spec="ctlst.io.gpio_in">
