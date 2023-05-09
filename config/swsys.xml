@@ -10,21 +10,23 @@
             <dir name="imu" eq_channel="16"/>
             <dir name="io" eq_channel="16"/>
         </dir>
+        <dir name="cont" eq_channel="16"/>
     </bus>
 
     <bus name="gen_bus" eq_channel="1" max_topics="64"/>
     <bus name="nav_bus" eq_channel="1" max_topics="64"/>
     <bus name="imu_bus" eq_channel="1" max_topics="64"/>
     <bus name="io_bus" eq_channel="2" max_topics="64"/>
+    <bus name="cont_bus" eq_channel="2" max_topics="64"/>
 
-    <task type="flow" config="flow_generators.xml" name="generators" priority="4" clk_method="timer" clk_period="10">
+    <task type="flow" config="flow_generators.xml" name="generators" priority="1" clk_method="timer" clk_period="10">
         <connect>
             <out alias="sin1, sin2, mean1, mean2">gen_bus/$alias</out>
         </connect>
     </task>
 
     <!-- Boards -->
-    <task type="flow" config="flow_main_imu.xml" name="imu" priority="11" clk_method="freerun">
+    <task type="flow" config="flow_main_imu.xml" name="imu" priority="12" clk_method="freerun">
         <connect>
             <out alias="a_raw, omega_raw">nav_bus/$alias</out>
             <out alias="pdiff, pstat, pdyn">nav_bus/$alias</out>
@@ -32,7 +34,7 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_adc.xml" name="io_adc" priority="6" clk_method="timer" clk_period="100">
+    <task type="flow" config="flow_io_adc.xml" name="io_adc" priority="9" clk_method="timer" clk_period="100">
         <connect>
             <out alias="thermistor_1, thermistor_2, thermistor_3, thermistor_4">io_bus/$alias</out>
             <out alias="thermistor_5, thermistor_6, thermistor_7, thermistor_8">io_bus/$alias</out>
@@ -42,30 +44,19 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="12" clk_method="timer" clk_period="10">
+    <task type="flow" config="flow_io_gpio.xml" name="io_gpio" priority="11" clk_method="timer" clk_period="10">
         <connect>
-            <in alias="l1">gen_bus/mean1</in>
-            <in alias="l2">gen_bus/mean1</in>
-            <in alias="l3">gen_bus/mean1</in>
-            <in alias="l4">gen_bus/mean1</in>
-            <in alias="servo">gen_bus/sin2</in>
-            <in alias="motor">gen_bus/sin2</in>
-            <in alias="out1">gen_bus/mean1</in>
-            <in alias="out2">gen_bus/mean1</in>
-            <in alias="relay">gen_bus/mean2</in>
-            <in alias="phase">gen_bus/mean1</in>
-            <in alias="overheat_tc">gen_bus/mean1</in>
-            <in alias="overheat_th">gen_bus/mean1</in>
-            <in alias="status">gen_bus/mean1</in>
+            <in alias="motor, servo, relay, out1, out2">cont_bus/$alias</in>
+            <in alias="l1, l2, l3, l4">cont_bus/$alias</in>
+            <in alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</in>
             <out alias="button1, button2, button3, button4">io_bus/$alias</out>
-            <out alias="hall1_period, hall2_period, hall3_period, hall4_period">io_bus/$alias</out>
+            <out alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</out>
             <out alias="in1, in2, in3, in4, in5, in6">io_bus/$alias</out>
-            <out alias="cps1_period, cps1_tooth, cps1_step">io_bus/$alias</out>
         </connect>
     </task>
 
     <!-- Nav processing -->
-    <task type="flow" config="flow_nav_imu_alignment.xml" name="nav_imu_alignement" priority="7" clk_method="timer" clk_period="100">
+    <task type="flow" config="flow_nav_imu_alignment.xml" name="nav_imu_alignement" priority="10" clk_method="timer" clk_period="100">
         <connect>
             <in alias="omega, a, azimuth">nav_bus/$alias</in>
             <out alias="omega_bias, q0, imu_reset">nav_bus/$alias</out>
@@ -81,27 +72,40 @@
         </connect>
     </task>
 
-    <task type="flow" config="flow_nav_compass.xml" name="nav_compass" priority="8" clk_method="inp_upd" clk_input_path="nav_bus/omega_raw">
+    <task type="flow" config="flow_nav_compass.xml" name="nav_compass" priority="10" clk_method="inp_upd" clk_input_path="nav_bus/omega_raw">
         <connect>
             <in alias="q">nav_bus/q</in>
             <out alias="induction, azimuth, magnitude">nav_bus/$alias</out>
         </connect>
     </task>
 
-    <task type="flow" config="flow_nav_attitude_fusion.xml" name="nav_attitude_fusion" priority="9" clk_method="timer" clk_period="20">
+    <task type="flow" config="flow_nav_attitude_fusion.xml" name="nav_attitude_fusion" priority="10" clk_method="timer" clk_period="20">
         <connect>
             <in alias="q, a, azimuth">nav_bus/$alias</in>
             <out alias="euler_correction, roll, pitch, yaw">nav_bus/$alias</out>
         </connect>
     </task>
 
-    <task type="flow" config="flow_nav_baro.xml" name="nav_baro" priority="6" clk_method="timer" clk_period="100">
+    <task type="flow" config="flow_nav_baro.xml" name="nav_baro" priority="10" clk_method="timer" clk_period="100">
         <connect>
             <in alias="pstat, pdyn, pdiff">nav_bus/$alias</in>
             <out alias="altitude_bar, airspeed">nav_bus/$alias</out>
         </connect>
     </task>
 
+    <!-- Control -->
+    <task type="flow" config="flow_cont.xml" name="cont" priority="8" clk_method="timer" clk_period="100">
+        <connect>
+            <in alias="button1, button2, button3, button4">io_bus/$alias</in>
+            <in alias="r_left, r_right">io_bus/$alias</in>
+            <in alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</in>
+            <in alias="omega">nav_bus/omega</in>
+            <in alias="ind_probe">gen_bus/mean1</in>
+            <out alias="motor, servo, relay, out1, out2">cont_bus/$alias</out>
+            <out alias="l1, l2, l3, l4">cont_bus/$alias</out>
+            <out alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</out>
+        </connect>
+    </task>
 
     <!-- Bridges -->
     <bridge name="gen" priority="3" clk_method="timer" clk_period="50" to="gcu_bus/hk">
@@ -135,9 +139,14 @@
 
     <bridge name="digital" priority="2" clk_method="timer" clk_period="50" to="gcu_bus/dev/io">
         <source alias="button1, button2, button3, button4">io_bus/$alias</source>
-        <source alias="hall1_period, hall2_period, hall3_period, hall4_period">io_bus/$alias</source>
-        <source alias="cps1_period, cps1_tooth, cps1_step">io_bus/$alias</source>
-        <source alias="in1, in2, in3, in4, in5, in6">io_bus/$alias</source>
+        <source alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</source>
+        <source alias="in1">io_bus/in1</source>
+    </bridge>
+
+    <bridge name="output" priority="2" clk_method="timer" clk_period="50" to="gcu_bus/cont">
+        <source alias="motor, servo, relay, out1, out2">cont_bus/$alias</source>
+        <source alias="l1, l2, l3, l4">cont_bus/$alias</source>
+        <source alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</source>
     </bridge>
 
     <!-- Connection -->
