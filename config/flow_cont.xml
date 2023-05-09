@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <flow>
-    <spec name="io_gpio">
+    <spec name="cont">
         <inputs>
             <i alias="button1" type="core.type.bool"/>
             <i alias="button2" type="core.type.bool"/>
