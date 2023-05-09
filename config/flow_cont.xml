@@ -112,7 +112,7 @@
         <!-- Relay -->
         <f name="enable_relay" by_spec="core.math.lt">
             <in alias="input0">half/output</in>
-            <in alias="input1">manual_motor/output</in>
+            <in alias="input1">r_right_norm/output</in>
         </f>
 
         <f name="auto_mux_relay" by_spec="core.cont.mux">
@@ -225,7 +225,7 @@
         <!-- Rate limiters -->
         <f name="rate_limiter_servo" by_spec="core.math.rate_limiter">
             <in alias="input">manual_mux_servo/output</in>
-            <in alias="rate">one/output</in>
+            <in alias="rate">half/output</in>
         </f>
 
         <!-- Thermo -->
