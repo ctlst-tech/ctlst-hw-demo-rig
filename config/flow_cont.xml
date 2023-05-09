@@ -36,11 +36,11 @@
 
     <functions>
         <f name="zero" by_spec="core.source.constant">
-            <param alias="value">0</param>
+            <param alias="value">0.0</param>
         </f>
 
         <f name="one" by_spec="core.source.constant">
-            <param alias="value">1</param>
+            <param alias="value">1.0</param>
         </f>
 
         <f name="half" by_spec="core.source.constant">
@@ -49,7 +49,7 @@
 
         <f name="r_left_norm" by_spec="core.math.gain">
             <in alias="input">inputs/r_left</in>
-            <param alias="gain">0.2</param>
+            <param alias="gain">0.4</param>
         </f>
 
         <f name="r_right_norm" by_spec="core.math.gain">
@@ -59,7 +59,7 @@
 
         <f name="r_left_bias" by_spec="core.math.sub">
             <in alias="input0">r_left_norm/output</in>
-            <in alias="input1">half/output</in>
+            <in alias="input1">one/output</in>
         </f>
 
         <f name="manual_motor" by_spec="core.math.value_limiter">
@@ -70,7 +70,7 @@
 
         <f name="manual_servo" by_spec="core.math.value_limiter">
             <in alias="input">r_left_bias/output</in>
-            <param alias="min">0.0</param>
+            <param alias="min">-1.0</param>
             <param alias="max">1.0</param>
         </f>
 

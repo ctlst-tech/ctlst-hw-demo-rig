@@ -44,9 +44,9 @@
             <in alias="input">inputs/motor</in>
             <param alias="channel">13</param>
             <param alias="period">1000</param>
-            <param alias="min">100</param>
+            <param alias="min">10</param>
             <param alias="max">900</param>
-            <param alias="bipolar">true</param>
+            <param alias="bipolar">false</param>
         </f>
         <f name="out1" by_spec="ctlst.io.gpio_out">
             <in alias="input_float">inputs/out1</in>
