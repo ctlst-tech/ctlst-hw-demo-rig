@@ -117,7 +117,7 @@
         </f>
 
         <f name="servo" by_spec="core.cont.mux">
-            <in alias="input0">half/output</in>
+            <in alias="input0">zero/output</in>
             <in alias="input1">manual_mux_servo/output</in>
             <in alias="select">panel_fsm/arm</in>
         </f>
@@ -159,8 +159,8 @@
         </f>
 
         <f name="l4_mux" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
-            <in alias="input1">one/output</in>
+            <in alias="input0">one/output</in>
+            <in alias="input1">zero/output</in>
             <in alias="select">panel_fsm/arm</in>
         </f>
 

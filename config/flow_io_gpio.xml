@@ -3,8 +3,8 @@
 <flow>
     <spec name="io_gpio">
         <inputs>
-            <i alias="servo" type="core.type.f64"/>
             <i alias="motor" type="core.type.f64"/>
+            <i alias="servo" type="core.type.f64"/>
             <i alias="out1" type="core.type.f64"/>
             <i alias="out2" type="core.type.f64"/>
             <i alias="l1" type="core.type.f64"/>
