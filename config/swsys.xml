@@ -99,7 +99,7 @@
             <in alias="button1, button2, button3, button4">io_bus/$alias</in>
             <in alias="r_left, r_right">io_bus/$alias</in>
             <in alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</in>
-            <in alias="omega">nav_bus/omega</in>
+            <in alias="roll, pitch, omega">nav_bus/$alias</in>
             <in alias="ind_probe">gen_bus/mean1</in>
             <out alias="motor, servo, relay, out1, out2">cont_bus/$alias</out>
             <out alias="l1, l2, l3, l4">cont_bus/$alias</out>

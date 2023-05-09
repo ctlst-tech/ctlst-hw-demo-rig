@@ -14,6 +14,8 @@
             <i alias="r_left" type="core.type.f64"/>
             <i alias="r_right" type="core.type.f64"/>
             <i alias="omega" type="core.type.v3f64"/>
+            <i alias="roll" type="core.type.f64"/>
+            <i alias="pitch" type="core.type.f64"/>
             <i alias="ind_probe" type="core.type.f64"/>
         </inputs>
 
@@ -35,6 +37,8 @@
     </spec>
 
     <functions>
+        <f name="true" by_spec="core.logical.true"/>
+
         <f name="button1_inv" by_spec="core.logical.not">
             <in alias="input">inputs/button1</in>
         </f>
@@ -104,14 +108,85 @@
             <in alias="select">enable_relay/output</in>
         </f>
 
-        <f name="manual_mux_motor" by_spec="core.cont.mux">
+        <f name="pid_angle" by_spec="core.cont.pid">
+            <in alias="input">zero/output</in>
+            <in alias="feedback">inputs/roll</in>
+            <in alias="preset">zero/output</in>
+            <in alias="enable">true/output</in>
+            <param alias="Kp">1.0</param>
+            <param alias="Ki">0.0</param>
+            <param alias="Kd">0.0</param>
+            <param alias="integral_min">-1.0</param>
+            <param alias="integral_max">1.0</param>
+            <param alias="output_min">-1.0</param>
+            <param alias="output_max">+1.0</param>
+        </f>
+
+        <f name="pid_angrates_x" by_spec="core.cont.pid">
+            <in alias="input">zero/output</in>
+            <in alias="feedback">inputs/omega/x</in>
+            <in alias="preset">zero/output</in>
+            <in alias="enable">true/output</in>
+            <param alias="Kp">0.2</param>
+            <param alias="Ki">0.0</param>
+            <param alias="Kd">0.0</param>
+            <param alias="integral_min">-1.0</param>
+            <param alias="integral_max">1.0</param>
+            <param alias="output_min">-1.0</param>
+            <param alias="output_max">+1.0</param>
+        </f>
+
+        <f name="pid_angrates_z" by_spec="core.cont.pid">
+            <in alias="input">zero/output</in>
+            <in alias="feedback">inputs/omega/z</in>
+            <in alias="preset">zero/output</in>
+            <in alias="enable">true/output</in>
+            <param alias="Kp">0.2</param>
+            <param alias="Ki">0.0</param>
+            <param alias="Kd">0.0</param>
+            <param alias="integral_min">-1.0</param>
+            <param alias="integral_max">1.0</param>
+            <param alias="output_min">-1.0</param>
+            <param alias="output_max">+1.0</param>
+        </f>
+
+        <f name="pid_angle_bias" by_spec="core.math.add">
+            <in alias="input1">pid_angle/output</in>
+            <in alias="input0">half/output</in>
+        </f>
+
+        <f name="angles_mux_motor" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
+            <in alias="input1">pid_angle_bias/output</in>
+            <in alias="select">panel_fsm/special</in>
+        </f>
+
+        <f name="angles_mux_servo" by_spec="core.cont.mux">
+            <in alias="input0">zero/output</in>
+            <in alias="input1">pid_angle/output</in>
+            <in alias="select">panel_fsm/special</in>
+        </f>
+
+        <f name="angrates_mux_motor" by_spec="core.cont.mux">
+            <in alias="input0">angles_mux_motor/output</in>
+            <in alias="input1">pid_angrates_z/output</in>
+            <in alias="select">panel_fsm/angrates</in>
+        </f>
+
+        <f name="angrates_mux_servo" by_spec="core.cont.mux">
+            <in alias="input0">angles_mux_servo/output</in>
+            <in alias="input1">pid_angrates_x/output</in>
+            <in alias="select">panel_fsm/angrates</in>
+        </f>
+
+        <f name="manual_mux_motor" by_spec="core.cont.mux">
+            <in alias="input0">angrates_mux_motor/output</in>
             <in alias="input1">manual_motor/output</in>
             <in alias="select">panel_fsm/manual</in>
         </f>
 
         <f name="manual_mux_servo" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
+            <in alias="input0">angrates_mux_servo/output</in>
             <in alias="input1">manual_servo/output</in>
             <in alias="select">panel_fsm/manual</in>
         </f>
