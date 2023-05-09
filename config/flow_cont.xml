@@ -16,6 +16,8 @@
             <i alias="omega" type="core.type.v3f64"/>
             <i alias="roll" type="core.type.f64"/>
             <i alias="pitch" type="core.type.f64"/>
+            <i alias="thermocouple" type="core.type.f64"/>
+            <i alias="thermistor" type="core.type.f64"/>
             <i alias="ind_probe" type="core.type.f64"/>
         </inputs>
 
@@ -63,6 +65,15 @@
             <param alias="value">0.5</param>
         </f>
 
+        <f name="thermocouple_threshold" by_spec="core.source.constant">
+            <param alias="value">2.6</param>
+        </f>
+
+        <f name="thermistor_threshold" by_spec="core.source.constant">
+            <param alias="value">4.65</param>
+        </f>
+
+        <!-- Potentiometers -->
         <f name="r_left_norm" by_spec="core.math.gain">
             <in alias="input">inputs/r_left</in>
             <param alias="gain">0.4</param>
@@ -90,6 +101,7 @@
             <param alias="max">1.0</param>
         </f>
 
+        <!-- Control -->
         <f name="panel_fsm" by_spec="demo.panel.fsm">
             <in alias="button1">button1_inv/output</in>
             <in alias="button2">button2_inv/output</in>
@@ -97,6 +109,7 @@
             <in alias="button4">button4_inv/output</in>
         </f>
 
+        <!-- Relay -->
         <f name="enable_relay" by_spec="core.math.lt">
             <in alias="input0">half/output</in>
             <in alias="input1">manual_motor/output</in>
@@ -108,7 +121,8 @@
             <in alias="select">enable_relay/output</in>
         </f>
 
-        <f name="pid_angle" by_spec="core.cont.pid">
+        <!-- Servo and motor -->
+        <f name="pid_angle_roll" by_spec="core.cont.pid">
             <in alias="input">zero/output</in>
             <in alias="feedback">inputs/roll</in>
             <in alias="preset">zero/output</in>
@@ -122,12 +136,39 @@
             <param alias="output_max">+1.0</param>
         </f>
 
+        <f name="pid_angle_pitch" by_spec="core.cont.pid">
+            <in alias="input">zero/output</in>
+            <in alias="feedback">inputs/pitch</in>
+            <in alias="preset">zero/output</in>
+            <in alias="enable">true/output</in>
+            <param alias="Kp">1.0</param>
+            <param alias="Ki">0.0</param>
+            <param alias="Kd">0.0</param>
+            <param alias="integral_min">0.5</param>
+            <param alias="integral_max">1.0</param>
+            <param alias="output_min">0.0</param>
+            <param alias="output_max">+1.0</param>
+        </f>
+
+        <f name="angles_mux_motor" by_spec="core.cont.mux">
+            <in alias="input0">zero/output</in>
+            <in alias="input1">pid_angle_pitch/output</in>
+            <in alias="select">panel_fsm/special</in>
+        </f>
+
+        <f name="angles_mux_servo" by_spec="core.cont.mux">
+            <in alias="input0">zero/output</in>
+            <in alias="input1">pid_angle_roll/output</in>
+            <in alias="select">panel_fsm/special</in>
+        </f>
+
+        <!-- Angrates -->
         <f name="pid_angrates_x" by_spec="core.cont.pid">
             <in alias="input">zero/output</in>
             <in alias="feedback">inputs/omega/x</in>
             <in alias="preset">zero/output</in>
             <in alias="enable">true/output</in>
-            <param alias="Kp">0.2</param>
+            <param alias="Kp">0.4</param>
             <param alias="Ki">0.0</param>
             <param alias="Kd">0.0</param>
             <param alias="integral_min">-1.0</param>
@@ -141,32 +182,15 @@
             <in alias="feedback">inputs/omega/z</in>
             <in alias="preset">zero/output</in>
             <in alias="enable">true/output</in>
-            <param alias="Kp">0.2</param>
+            <param alias="Kp">0.4</param>
             <param alias="Ki">0.0</param>
             <param alias="Kd">0.0</param>
-            <param alias="integral_min">-1.0</param>
-            <param alias="integral_max">1.0</param>
-            <param alias="output_min">-1.0</param>
+            <param alias="integral_min">0.5</param>
+            <param alias="integral_max">0.51</param>
+            <param alias="output_min">0.0</param>
             <param alias="output_max">+1.0</param>
         </f>
-
-        <f name="pid_angle_bias" by_spec="core.math.add">
-            <in alias="input1">pid_angle/output</in>
-            <in alias="input0">half/output</in>
-        </f>
-
-        <f name="angles_mux_motor" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
-            <in alias="input1">pid_angle_bias/output</in>
-            <in alias="select">panel_fsm/special</in>
-        </f>
-
-        <f name="angles_mux_servo" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
-            <in alias="input1">pid_angle/output</in>
-            <in alias="select">panel_fsm/special</in>
-        </f>
-
+    
         <f name="angrates_mux_motor" by_spec="core.cont.mux">
             <in alias="input0">angles_mux_motor/output</in>
             <in alias="input1">pid_angrates_z/output</in>
@@ -179,6 +203,7 @@
             <in alias="select">panel_fsm/angrates</in>
         </f>
 
+        <!-- Manual -->
         <f name="manual_mux_motor" by_spec="core.cont.mux">
             <in alias="input0">angrates_mux_motor/output</in>
             <in alias="input1">manual_motor/output</in>
@@ -197,6 +222,36 @@
             <in alias="select">panel_fsm/arm</in>
         </f>
 
+        <!-- Rate limiters -->
+        <f name="rate_limiter_servo" by_spec="core.math.rate_limiter">
+            <in alias="input">manual_mux_servo/output</in>
+            <in alias="rate">one/output</in>
+        </f>
+
+        <!-- Thermo -->
+        <f name="overheat_th_comp" by_spec="core.math.lt">
+            <in alias="input0">inputs/thermistor</in>
+            <in alias="input1">thermistor_threshold/output</in>
+        </f>
+
+        <f name="overheat_tc_comp" by_spec="core.math.lt">
+            <in alias="input0">thermocouple_threshold/output</in>
+            <in alias="input1">inputs/thermocouple</in>
+        </f>
+
+        <f name="overheat_tc_mux" by_spec="core.cont.mux">
+            <in alias="input0">zero/output</in>
+            <in alias="input1">one/output</in>
+            <in alias="select">overheat_tc_comp/output</in>
+        </f>
+
+        <f name="overheat_th_mux" by_spec="core.cont.mux">
+            <in alias="input0">zero/output</in>
+            <in alias="input1">one/output</in>
+            <in alias="select">overheat_th_comp/output</in>
+        </f>
+
+        <!-- Output mux -->
         <f name="motor" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
             <in alias="input1">manual_mux_motor/output</in>
@@ -205,7 +260,7 @@
 
         <f name="servo" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">manual_mux_servo/output</in>
+            <in alias="input1">rate_limiter_servo/output</in>
             <in alias="select">panel_fsm/arm</in>
         </f>
 
@@ -215,6 +270,7 @@
             <in alias="select">panel_fsm/arm</in>
         </f>
 
+        <!-- Indication -->
         <f name="out1" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
             <in alias="input1">one/output</in>
@@ -282,13 +338,13 @@
         </f>
 
         <f name="overheat_tc" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
+            <in alias="input0">overheat_tc_mux/output</in>
             <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="overheat_th" by_spec="core.cont.mux">
-            <in alias="input0">zero/output</in>
+            <in alias="input0">overheat_th_mux/output</in>
             <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
