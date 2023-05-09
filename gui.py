@@ -164,8 +164,8 @@ io_thermocouple_5 = EwChart([io_thermocouple_5], title="Thermocouple 5", labels=
 io_thermocouple_6 = EwChart([io_thermocouple_6], title="Thermocouple 6", labels={'left': 'V', 'bottom': 'time, ms'})
 io_thermocouple_7 = EwChart([io_thermocouple_7], title="Thermocouple 7", labels={'left': 'V', 'bottom': 'time, ms'})
 io_thermocouple_8 = EwChart([io_thermocouple_8], title="Thermocouple 8", labels={'left': 'V', 'bottom': 'time, ms'})
-io_r_left = EwChart([io_r_left], title="R right", labels={'left': 'V', 'bottom': 'time, ms'})
-io_r_right = EwChart([io_r_right], title="R left", labels={'left': 'V', 'bottom': 'time, ms'})
+io_r_left = EwChart([io_r_left], title="R left", labels={'left': 'V', 'bottom': 'time, ms'})
+io_r_right = EwChart([io_r_right], title="R right", labels={'left': 'V', 'bottom': 'time, ms'})
 
 io_button1 = EwChart([io_button1], title="Button 1", labels={'left': '0/1', 'bottom': 'time, ms'})
 io_button2 = EwChart([io_button2], title="Button 2", labels={'left': '0/1', 'bottom': 'time, ms'})

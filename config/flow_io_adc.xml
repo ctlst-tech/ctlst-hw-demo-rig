@@ -141,13 +141,13 @@
             <param alias="range">10</param>
         </f>
         <f name="r_right" by_spec="ctlst.io.adc">
-            <param alias="channel">3</param>
+            <param alias="channel">11</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
             <param alias="range">5</param>
         </f>
         <f name="r_left" by_spec="ctlst.io.adc">
-            <param alias="channel">11</param>
+            <param alias="channel">3</param>
             <param alias="bias">0</param>
             <param alias="scale">1</param>
             <param alias="range">5</param>
