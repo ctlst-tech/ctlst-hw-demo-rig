@@ -118,10 +118,10 @@
             <param alias="channel">5</param>
         </f>
         <f name="button3" by_spec="ctlst.io.gpio_in">
-            <param alias="channel">0</param>
+            <param alias="channel">8</param>
         </f>
         <f name="button4" by_spec="ctlst.io.gpio_in">
-            <param alias="channel">1</param>
+            <param alias="channel">9</param>
         </f>
         <!-- <f name="hall1" by_spec="ctlst.io.gpio_in">
             <param alias="channel">0</param>
@@ -180,12 +180,12 @@
         <f name="in3" by_spec="ctlst.io.gpio_in">
             <param alias="channel">5</param>
         </f> -->
-        <f name="in4" by_spec="ctlst.io.gpio_in">
+        <!-- <f name="in4" by_spec="ctlst.io.gpio_in">
             <param alias="channel">8</param>
         </f>
         <f name="in5" by_spec="ctlst.io.gpio_in">
             <param alias="channel">9</param>
-        </f>
+        </f> -->
         <f name="in6" by_spec="ctlst.io.gpio_in">
             <param alias="channel">10</param>
         </f>
@@ -206,8 +206,8 @@
         <link alias="in1">in1/output</link>
         <link alias="in2">stub/output</link>
         <link alias="in3">stub/output</link>
-        <link alias="in4">in4/output</link>
-        <link alias="in5">in5/output</link>
-        <link alias="in6">in5/output</link>
+        <link alias="in4">stub/output</link>
+        <link alias="in5">stub/output</link>
+        <link alias="in6">stub/output</link>
     </link_outputs>
 </flow>
