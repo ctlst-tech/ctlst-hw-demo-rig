@@ -77,19 +77,19 @@
             <param alias="channel">6</param>
         </f>
         <f name="l1" by_spec="ctlst.io.gpio_out">
-            <in alias="input_float">inputs/status</in>
+            <in alias="input_float">inputs/l1</in>
             <param alias="channel">0</param>
         </f>
         <f name="l2" by_spec="ctlst.io.gpio_out">
-            <in alias="input_float">inputs/status</in>
+            <in alias="input_float">inputs/l2</in>
             <param alias="channel">4</param>
         </f>
         <f name="l3" by_spec="ctlst.io.gpio_out">
-            <in alias="input_float">inputs/status</in>
+            <in alias="input_float">inputs/l3</in>
             <param alias="channel">10</param>
         </f>
         <f name="l4" by_spec="ctlst.io.gpio_out">
-            <in alias="input_float">inputs/status</in>
+            <in alias="input_float">inputs/l4</in>
             <param alias="channel">11</param>
         </f>
 

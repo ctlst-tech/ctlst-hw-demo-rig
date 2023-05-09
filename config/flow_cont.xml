@@ -35,6 +35,18 @@
     </spec>
 
     <functions>
+        <f name="button1_inv" by_spec="core.logical.not">
+            <in alias="input">inputs/button1</in>
+        </f>
+        <f name="button2_inv" by_spec="core.logical.not">
+            <in alias="input">inputs/button2</in>
+        </f>
+        <f name="button3_inv" by_spec="core.logical.not">
+            <in alias="input">inputs/button3</in>
+        </f>
+        <f name="button4_inv" by_spec="core.logical.not">
+            <in alias="input">inputs/button4</in>
+        </f>
         <f name="zero" by_spec="core.source.constant">
             <param alias="value">0.0</param>
         </f>
@@ -75,10 +87,10 @@
         </f>
 
         <f name="panel_fsm" by_spec="demo.panel.fsm">
-            <in alias="button1">inputs/button1</in>
-            <in alias="button2">inputs/button2</in>
-            <in alias="button3">inputs/button3</in>
-            <in alias="button4">inputs/button4</in>
+            <in alias="button1">button1_inv/output</in>
+            <in alias="button2">button2_inv/output</in>
+            <in alias="button3">button3_inv/output</in>
+            <in alias="button4">button4_inv/output</in>
         </f>
 
         <f name="enable_relay" by_spec="core.math.lt">
@@ -130,13 +142,13 @@
 
         <f name="out1" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="out2" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
@@ -166,49 +178,49 @@
 
         <f name="l1" by_spec="core.cont.mux">
             <in alias="input0">l1_mux/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="l2" by_spec="core.cont.mux">
             <in alias="input0">l2_mux/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="l3" by_spec="core.cont.mux">
             <in alias="input0">l3_mux/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="l4" by_spec="core.cont.mux">
             <in alias="input0">l4_mux/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="phase" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="overheat_tc" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="overheat_th" by_spec="core.cont.mux">
             <in alias="input0">zero/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
 
         <f name="status" by_spec="core.cont.mux">
             <in alias="input0">one/output</in>
-            <in alias="input1">inputs/ind_probe</in>
+            <in alias="input1">one/output</in>
             <in alias="select">panel_fsm/enable_check_indication</in>
         </f>
     </functions>
