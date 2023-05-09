@@ -69,10 +69,20 @@ Function(
             title='Output',
             value_type='core.type.bool'
         ),
+        Output(
+            name='mode',
+            title='Output',
+            value_type='core.type.u32'
+        ),
+        Output(
+            name='error',
+            title='Output',
+            value_type='core.type.u32'
+        ),
     ],
     state=[
         Variable(
-            name='state',
+            name='mode',
             title='State',
             value_type='core.type.bool'
         ),

@@ -35,6 +35,10 @@
             <o alias="overheat_tc" type="core.type.f64"/>
             <o alias="overheat_th" type="core.type.f64"/>
             <o alias="status" type="core.type.f64"/>
+            <o alias="mode" type="core.type.u32"/>
+            <o alias="error" type="core.type.u32"/>
+            <o alias="overheat_tc_status" type="core.type.u32"/>
+            <o alias="overheat_th_status" type="core.type.u32"/>
         </outputs>
     </spec>
 
@@ -370,5 +374,9 @@
         <link alias="overheat_tc">overheat_tc/output</link>
         <link alias="overheat_th">overheat_th/output</link>
         <link alias="status">status/output</link>
+        <link alias="mode">panel_fsm/mode</link>
+        <link alias="error">panel_fsm/error</link>
+        <link alias="overheat_th_status">overheat_th_comp/output</link>
+        <link alias="overheat_tc_status">overheat_tc_comp/output</link>
     </link_outputs>
 </flow>

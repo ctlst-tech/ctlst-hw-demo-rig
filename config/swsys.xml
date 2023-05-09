@@ -106,6 +106,7 @@
             <out alias="motor, servo, relay, out1, out2">cont_bus/$alias</out>
             <out alias="l1, l2, l3, l4">cont_bus/$alias</out>
             <out alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</out>
+            <out alias="mode, error, overheat_th_status, overheat_tc_status">cont_bus/$alias</out>
         </connect>
     </task>
 
@@ -149,6 +150,10 @@
         <source alias="motor, servo, relay, out1, out2">cont_bus/$alias</source>
         <source alias="l1, l2, l3, l4">cont_bus/$alias</source>
         <source alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</source>
+    </bridge>
+
+    <bridge name="internal" priority="2" clk_method="timer" clk_period="100" to="gcu_bus/cont">
+        <source alias="mode, error, overheat_th_status, overheat_tc_status">cont_bus/$alias</source>
     </bridge>
 
     <!-- Connection -->

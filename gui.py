@@ -21,6 +21,7 @@ args = args_parser.args
 
 mon = EswbMonitor(monitor_bus_name=mon_bus_name, argv=sys.argv, tabs=True, )
 
+main_tab = mon.add_tab('Main')
 imu_tab = mon.add_tab('IMU')
 adc_tab = mon.add_tab('ADC')
 io_tab = mon.add_tab('IO')
@@ -41,15 +42,15 @@ mon.bridge_sdtl_udp(ip_in='0.0.0.0', port_in='20001',
 
 
 # Data sources
-ax = DataSourceEswbTopic('ax', path=f'{basic_topics_root}/nav/ang/a/x')
-ay = DataSourceEswbTopic('ay', path=f'{basic_topics_root}/nav/ang/a/y')
-az = DataSourceEswbTopic('az', path=f'{basic_topics_root}/nav/ang/a/z')
-wx = DataSourceEswbTopic('wx', path=f'{basic_topics_root}/nav/ang/omega/x', mult=57.32)
-wy = DataSourceEswbTopic('wy', path=f'{basic_topics_root}/nav/ang/omega/y', mult=57.32)
-wz = DataSourceEswbTopic('wz', path=f'{basic_topics_root}/nav/ang/omega/z', mult=57.32)
-roll = DataSourceEswbTopic('roll', path=f'{basic_topics_root}/nav/ang/roll', mult=57.32)
-pitch = DataSourceEswbTopic('pitch', path=f'{basic_topics_root}/nav/ang/pitch', mult=57.32)
-yaw = DataSourceEswbTopic('yaw', path=f'{basic_topics_root}/nav/ang/yaw', mult=57.32)
+ax = DataSourceEswbTopic('Acceleration x', path=f'{basic_topics_root}/nav/ang/a/x')
+ay = DataSourceEswbTopic('Acceleration y', path=f'{basic_topics_root}/nav/ang/a/y')
+az = DataSourceEswbTopic('Acceleration z', path=f'{basic_topics_root}/nav/ang/a/z')
+wx = DataSourceEswbTopic('Angular rates x', path=f'{basic_topics_root}/nav/ang/omega/x', mult=57.32)
+wy = DataSourceEswbTopic('Angular rates y', path=f'{basic_topics_root}/nav/ang/omega/y', mult=57.32)
+wz = DataSourceEswbTopic('Angular rates z', path=f'{basic_topics_root}/nav/ang/omega/z', mult=57.32)
+roll = DataSourceEswbTopic('Roll', path=f'{basic_topics_root}/nav/ang/roll', mult=57.32)
+pitch = DataSourceEswbTopic('Pitch', path=f'{basic_topics_root}/nav/ang/pitch', mult=57.32)
+yaw = DataSourceEswbTopic('Yaw', path=f'{basic_topics_root}/nav/ang/yaw', mult=57.32)
 
 pstat = DataSourceEswbTopic('pstat', path=f'{basic_topics_root}/nav/pres/pstat')
 pdyn = DataSourceEswbTopic('pdyn', path=f'{basic_topics_root}/nav/pres/pdyn')
@@ -109,6 +110,30 @@ cont_output_overheat_tc = DataSourceEswbTopic('cont_output_overheat_tc', path=f'
 cont_output_overheat_th = DataSourceEswbTopic('cont_output_overheat_th', path=f'{basic_topics_root}/cont/output/overheat_th')
 cont_output_status = DataSourceEswbTopic('cont_output_status', path=f'{basic_topics_root}/cont/output/status')
 
+cont_error = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/error')
+cont_mode = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/mode')
+cont_oh_tc = DataSourceEswbTopic('cont_oh_tc', path=f'{basic_topics_root}/cont/internal/overheat_tc_status')
+cont_oh_th = DataSourceEswbTopic('cont_oh_th', path=f'{basic_topics_root}/cont/internal/overheat_th_status')
+
+cont_state_status_enum = DataSourceEnum(name='Status', sources=[cont_error],
+                                        enum_table={
+    0: 'CONNECTED',
+    1: 'DISCONNECTED'})
+cont_state_mode_enum = DataSourceEnum(name='Mode', sources=[cont_mode],
+                                      enum_table={
+    1: 'DISARM',
+    2: 'MANUAL',
+    3: 'ANGRATES',
+    4: 'SPECIAL'})
+cont_state_overheat_tc_enum = DataSourceEnum(name='Temperature status 1', sources=[cont_oh_tc],
+                                      enum_table={
+    0: 'NORMAL',
+    1: 'OVERHEAT'})
+cont_state_overheat_th_enum = DataSourceEnum(name='Temperature status 2', sources=[cont_oh_th],
+                                      enum_table={
+    0: 'NORMAL',
+    1: 'OVERHEAT'})
+
 sin1 = DataSourceEswbTopic('sin1', path=f'{basic_topics_root}/hk/gen/sin1')
 sin2 = DataSourceEswbTopic('sin2', path=f'{basic_topics_root}/hk/gen/sin2')
 mean1 = DataSourceEswbTopic('mean1', path=f'{basic_topics_root}/hk/gen/mean1')
@@ -120,110 +145,132 @@ sin2 = EwChart([sin2], title="Sin2")
 mean1 = EwChart([mean1], title="Mean1")
 mean2 = EwChart([mean2], title="Mean2")
 
-accel = EwChart([ax, ay, az], 
-                title="Accelerations",
-                labels={'left': 'm/s²', 'bottom': 'time, ms'})
-gyro = EwChart([wx, wy, wz], 
+# title='<span style="color: #000">Accelerations</span>',
+
+
+accel_chart = EwChart([ax, ay, az], 
+                title='Accelerations',
+                labels={'left': 'm/s²', 'bottom': 'time'})
+gyro_chart = EwChart([wx, wy, wz], 
                title="Angular rates",
-               labels={'left': '1/s', 'bottom': 'time, ms'})
-roll_pitch = EwChart([roll, pitch], 
+               labels={'left': 'grad/s', 'bottom': 'time'})
+roll_pitch_chart = EwChart([roll, pitch], 
                      title="Angles",
-                     labels={'left': 'grad', 'bottom': 'time, ms'})
-yaw = EwChart([yaw], 
+                     labels={'left': 'grad', 'bottom': 'time'})
+yaw_chart = EwChart([yaw], 
               title="Angles",
-              labels={'left': 'grad', 'bottom': 'time, ms'})
+              labels={'left': 'grad', 'bottom': 'time'})
 
-accel_gyro_temp = EwChart([tax, tay, taz, twx, twy, twz], 
+accel_gyro_temp_chart = EwChart([tax, tay, taz, twx, twy, twz], 
                           title="Sensor temperatures",
-                          labels={'left': '°C', 'bottom': 'time, ms'})
-adc_temp = EwChart([tadc], 
+                          labels={'left': '°C', 'bottom': 'time'})
+adc_temp_chart = EwChart([tadc], 
                    title="ADC temperature",
-                   labels={'left': '°C', 'bottom': 'time, ms'})
+                   labels={'left': '°C', 'bottom': 'time'})
 
-pstat_pdyn = EwChart([pstat, pdyn], 
+pstat_pdyn_chart = EwChart([pstat, pdyn], 
                      title="Static and dynamic pressure",
-                     labels={'left': 'Pa', 'bottom': 'time, ms'})
-pdiff = EwChart([pdiff], 
+                     labels={'left': 'Pa', 'bottom': 'time'})
+pdiff_chart = EwChart([pdiff], 
                 title="Differential pressure",
-                labels={'left': 'Pa', 'bottom': 'time, ms'})
+                labels={'left': 'Pa', 'bottom': 'time'})
 
-altitude_bar = EwChart([altitude_bar], 
+altitude_bar_chart = EwChart([altitude_bar], 
                        title="Barometric altitude",
-                       labels={'left': 'm', 'bottom': 'time, ms'})
-airspeed = EwChart([airspeed], 
+                       labels={'left': 'm', 'bottom': 'time'})
+airspeed_chart = EwChart([airspeed], 
                    title="Airspeed",
-                   labels={'left': 'm/s', 'bottom': 'time, ms'})
+                   labels={'left': 'm/s', 'bottom': 'time'})
 
-io_thermistor_1 = EwChart([io_thermistor_1], title="Thermistor 1", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_2 = EwChart([io_thermistor_2], title="Thermistor 2", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_3 = EwChart([io_thermistor_3], title="Thermistor 3", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_4 = EwChart([io_thermistor_4], title="Thermistor 4", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_5 = EwChart([io_thermistor_5], title="Thermistor 5", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_6 = EwChart([io_thermistor_6], title="Thermistor 6", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_7 = EwChart([io_thermistor_7], title="Thermistor 7", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermistor_8 = EwChart([io_thermistor_8], title="Thermistor 8", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_1 = EwChart([io_thermocouple_1], title="Thermocouple 1", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_2 = EwChart([io_thermocouple_2], title="Thermocouple 2", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_3 = EwChart([io_thermocouple_3], title="Thermocouple 3", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_4 = EwChart([io_thermocouple_4], title="Thermocouple 4", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_5 = EwChart([io_thermocouple_5], title="Thermocouple 5", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_6 = EwChart([io_thermocouple_6], title="Thermocouple 6", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_7 = EwChart([io_thermocouple_7], title="Thermocouple 7", labels={'left': 'V', 'bottom': 'time, ms'})
-io_thermocouple_8 = EwChart([io_thermocouple_8], title="Thermocouple 8", labels={'left': 'V', 'bottom': 'time, ms'})
-io_r_left = EwChart([io_r_left], title="R left", labels={'left': 'V', 'bottom': 'time, ms'})
-io_r_right = EwChart([io_r_right], title="R right", labels={'left': 'V', 'bottom': 'time, ms'})
+io_thermistor_1_chart = EwChart([io_thermistor_1], title="Thermistor 1", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_2_chart = EwChart([io_thermistor_2], title="Thermistor 2", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_3_chart = EwChart([io_thermistor_3], title="Thermistor 3", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_4_chart = EwChart([io_thermistor_4], title="Thermistor 4", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_5_chart = EwChart([io_thermistor_5], title="Thermistor", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_6_chart = EwChart([io_thermistor_6], title="Thermistor 6", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_7_chart = EwChart([io_thermistor_7], title="Thermistor 7", labels={'left': 'V', 'bottom': 'time'})
+io_thermistor_8_chart = EwChart([io_thermistor_8], title="Thermistor 8", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_1_chart = EwChart([io_thermocouple_1], title="Thermocouple 1", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_2_chart = EwChart([io_thermocouple_2], title="Thermocouple 2", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_3_chart = EwChart([io_thermocouple_3], title="Thermocouple 3", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_4_chart = EwChart([io_thermocouple_4], title="Thermocouple 4", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_5_chart = EwChart([io_thermocouple_5], title="Thermocouple", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_6_chart = EwChart([io_thermocouple_6], title="Thermocouple 6", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_7_chart = EwChart([io_thermocouple_7], title="Thermocouple 7", labels={'left': 'V', 'bottom': 'time'})
+io_thermocouple_8_chart = EwChart([io_thermocouple_8], title="Thermocouple 8", labels={'left': 'V', 'bottom': 'time'})
+io_r_left_chart = EwChart([io_r_left], title="R left", labels={'left': 'V', 'bottom': 'time'})
+io_r_right_chart = EwChart([io_r_right], title="R right", labels={'left': 'V', 'bottom': 'time'})
 
-io_button1 = EwChart([io_button1], title="Button 1", labels={'left': '0/1', 'bottom': 'time, ms'})
-io_button2 = EwChart([io_button2], title="Button 2", labels={'left': '0/1', 'bottom': 'time, ms'})
-io_button3 = EwChart([io_button3], title="Button 3", labels={'left': '0/1', 'bottom': 'time, ms'})
-io_button4 = EwChart([io_button4], title="Button 4", labels={'left': '0/1', 'bottom': 'time, ms'})
-io_cps1_period = EwChart([io_cps1_period], title="cps 1 period", labels={'left': 'us', 'bottom': 'time, ms'})
-io_cps2_period = EwChart([io_cps2_period], title="cps 2 period", labels={'left': 'us', 'bottom': 'time, ms'})
-io_cps3_period = EwChart([io_cps3_period], title="cps 3 period", labels={'left': 'us', 'bottom': 'time, ms'})
-io_cps4_period = EwChart([io_cps4_period], title="cps 4 period", labels={'left': 'us', 'bottom': 'time, ms'})
-io_in1 = EwChart([io_in1], title="IN 1", labels={'left': '0/1', 'bottom': 'time, ms'})
+io_button1_chart = EwChart([io_button1], title="Button 1", labels={'left': '0/1', 'bottom': 'time'})
+io_button2_chart = EwChart([io_button2], title="Button 2", labels={'left': '0/1', 'bottom': 'time'})
+io_button3_chart = EwChart([io_button3], title="Button 3", labels={'left': '0/1', 'bottom': 'time'})
+io_button4_chart = EwChart([io_button4], title="Button 4", labels={'left': '0/1', 'bottom': 'time'})
+io_cps1_period_chart = EwChart([io_cps1_period], title="cps 1 period", labels={'left': 'us', 'bottom': 'time'})
+io_cps2_period_chart = EwChart([io_cps2_period], title="cps 2 period", labels={'left': 'us', 'bottom': 'time'})
+io_cps3_period_chart = EwChart([io_cps3_period], title="cps 3 period", labels={'left': 'us', 'bottom': 'time'})
+io_cps4_period_chart = EwChart([io_cps4_period], title="cps 4 period", labels={'left': 'us', 'bottom': 'time'})
+io_in1_chart = EwChart([io_in1], title="IN 1", labels={'left': '0/1', 'bottom': 'time'})
 
-cont_output_motor = EwChart([cont_output_motor], title="Motor", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_servo = EwChart([cont_output_servo], title="Servo", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_relay = EwChart([cont_output_relay], title="Relay", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_out1 = EwChart([cont_output_out1], title="Out 1", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_out2 = EwChart([cont_output_out2], title="Out 2", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_l1 = EwChart([cont_output_l1], title="L1", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_l2 = EwChart([cont_output_l2], title="L2", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_l3 = EwChart([cont_output_l3], title="L3", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_l4 = EwChart([cont_output_l4], title="L4", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_phase = EwChart([cont_output_phase], title="Phase", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_overheat_tc = EwChart([cont_output_overheat_tc], title="Overheat TC", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_overheat_th = EwChart([cont_output_overheat_th], title="Overheat TH", labels={'left': '', 'bottom': 'time, ms'})
-cont_output_status = EwChart([cont_output_status], title="Status", labels={'left': '', 'bottom': 'time, ms'})
+cont_output_motor_chart = EwChart([cont_output_motor], title="Motor control signal", labels={'left': '[0, 1]', 'bottom': 'time'})
+cont_output_servo_chart = EwChart([cont_output_servo], title="Servo control signal", labels={'left': '[-1, 1]', 'bottom': 'time'})
+cont_output_relay_chart = EwChart([cont_output_relay], title="Relay", labels={'left': '', 'bottom': 'time'})
+cont_output_out1_chart = EwChart([cont_output_out1], title="Out 1", labels={'left': '', 'bottom': 'time'})
+cont_output_out2_chart = EwChart([cont_output_out2], title="Out 2", labels={'left': '', 'bottom': 'time'})
+cont_output_l1_chart = EwChart([cont_output_l1], title="L1", labels={'left': '', 'bottom': 'time'})
+cont_output_l2_chart = EwChart([cont_output_l2], title="L2", labels={'left': '', 'bottom': 'time'})
+cont_output_l3_chart = EwChart([cont_output_l3], title="L3", labels={'left': '', 'bottom': 'time'})
+cont_output_l4_chart = EwChart([cont_output_l4], title="L4", labels={'left': '', 'bottom': 'time'})
+cont_output_phase_chart = EwChart([cont_output_phase], title="Phase", labels={'left': '', 'bottom': 'time'})
+cont_output_overheat_tc_chart = EwChart([cont_output_overheat_tc], title="Overheat TC", labels={'left': '', 'bottom': 'time'})
+cont_output_overheat_th_chart = EwChart([cont_output_overheat_th], title="Overheat TH", labels={'left': '', 'bottom': 'time'})
+cont_output_status_chart = EwChart([cont_output_status], title="Status", labels={'left': '', 'bottom': 'time'})
+
+# Main
+ai = EwAttitudeIndicator([roll, pitch])
+hi = EwHeadingIndicator([yaw])
+
+state_table = EwTable(caption='Information', data_sources=[
+    cont_state_status_enum,
+    cont_state_mode_enum,
+    cont_state_overheat_tc_enum,
+    cont_state_overheat_th_enum,
+    roll,
+    pitch,
+    ])
 
 # Add widgets
-imu_tab.add_widget(accel)
-imu_tab.add_widget(gyro)
-imu_tab.add_widget(roll_pitch)
-imu_tab.add_widget(EwGroup([pstat_pdyn, pdiff, altitude_bar, airspeed]))
-imu_tab.add_widget(EwGroup([adc_temp, accel_gyro_temp]))
+imu_tab.add_widget(accel_chart)
+imu_tab.add_widget(gyro_chart)
+imu_tab.add_widget(roll_pitch_chart)
+imu_tab.add_widget(EwGroup([pstat_pdyn_chart, pdiff_chart, altitude_bar_chart, airspeed_chart]))
+imu_tab.add_widget(EwGroup([adc_temp_chart, accel_gyro_temp_chart]))
 
-adc_tab.add_widget(EwGroup([io_thermistor_1, io_thermistor_2, io_thermistor_3, io_thermistor_4]))
-adc_tab.add_widget(EwGroup([io_thermistor_5, io_thermistor_6, io_thermistor_7, io_thermistor_8]))
-adc_tab.add_widget(EwGroup([io_thermocouple_1, io_thermocouple_2, io_thermocouple_3, io_thermocouple_4]))
-adc_tab.add_widget(EwGroup([io_thermocouple_5, io_thermocouple_6, io_thermocouple_7, io_thermocouple_8]))
-adc_tab.add_widget(EwGroup([io_r_left, io_r_right]))
+adc_tab.add_widget(EwGroup([io_thermistor_1_chart, io_thermistor_2_chart, io_thermistor_3_chart, io_thermistor_4_chart]))
+adc_tab.add_widget(EwGroup([io_thermistor_5_chart, io_thermistor_6_chart, io_thermistor_7_chart, io_thermistor_8_chart]))
+adc_tab.add_widget(EwGroup([io_thermocouple_1_chart, io_thermocouple_2_chart, io_thermocouple_3_chart, io_thermocouple_4_chart]))
+adc_tab.add_widget(EwGroup([io_thermocouple_5_chart, io_thermocouple_6_chart, io_thermocouple_7_chart, io_thermocouple_8_chart]))
+adc_tab.add_widget(EwGroup([io_r_left_chart, io_r_right_chart]))
 
-io_tab.add_widget(EwGroup([io_button1, io_button2, io_button3, io_button4]))
-io_tab.add_widget(EwGroup([io_cps1_period, io_cps2_period, io_cps3_period, io_cps4_period]))
-io_tab.add_widget(EwGroup([io_in1]))
+io_tab.add_widget(EwGroup([io_button1_chart, io_button2_chart, io_button3_chart, io_button4_chart]))
+io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps2_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
+io_tab.add_widget(EwGroup([io_in1_chart]))
 
-cont_tab.add_widget(EwGroup([cont_output_motor, cont_output_servo, cont_output_relay]))
-cont_tab.add_widget(EwGroup([cont_output_out1, cont_output_out2]))
-cont_tab.add_widget(EwGroup([cont_output_l1, cont_output_l2, cont_output_l3, cont_output_l4]))
-cont_tab.add_widget(EwGroup([cont_output_phase, cont_output_overheat_tc, cont_output_overheat_th]))
-cont_tab.add_widget(EwGroup([cont_output_status]))
+cont_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart, cont_output_relay_chart]))
+cont_tab.add_widget(EwGroup([cont_output_out1_chart, cont_output_out2_chart]))
+cont_tab.add_widget(EwGroup([cont_output_l1_chart, cont_output_l2_chart, cont_output_l3_chart, cont_output_l4_chart]))
+cont_tab.add_widget(EwGroup([cont_output_phase_chart, cont_output_overheat_tc_chart, cont_output_overheat_th_chart]))
+cont_tab.add_widget(EwGroup([cont_output_status_chart]))
 
 gen_tab.add_widget(sin1)
 gen_tab.add_widget(mean1)
 gen_tab.add_widget(sin2)
 gen_tab.add_widget(mean2)
+
+main_tab.add_widget(state_table)
+main_tab.add_widget(EwGroup([state_table, ai, hi]))
+main_tab.add_widget(EwGroup([roll_pitch_chart, accel_chart, gyro_chart, altitude_bar_chart]))
+main_tab.add_widget(EwGroup([io_thermistor_5_chart, io_thermocouple_5_chart]))
+main_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart]))
 
 sdtl_tab.add_widget(EwGroup([mon.get_stat_widget()]))
 
