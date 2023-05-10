@@ -25,6 +25,8 @@
             <o alias="button4" type="core.type.bool"/>
             <o alias="cps1_period" type="core.type.u32"/>
             <o alias="cps2_period" type="core.type.u32"/>
+            <o alias="cps2_tooth" type="core.type.u32"/>
+            <o alias="cps2_step" type="core.type.u32"/>
             <o alias="cps3_period" type="core.type.u32"/>
             <o alias="cps4_period" type="core.type.u32"/>
             <o alias="in1" type="core.type.bool"/>
@@ -122,7 +124,7 @@
             <param alias="channel">2</param>
             <param alias="total_teeth">26</param>
             <param alias="missing_tooth">1</param>
-            <param alias="tooth_step">true</param>
+            <param alias="tooth_step">6</param>
         </f>
         <f name="cps3" by_spec="ctlst.io.pwm_in">
             <param alias="channel">14</param>

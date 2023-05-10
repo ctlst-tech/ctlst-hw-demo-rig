@@ -14,7 +14,7 @@ target_include_directories(atomic_demo_panel_fsm-static PRIVATE g)
 target_include_directories(atomic_demo_panel_fsm-static PRIVATE ../../../../catpilot/c-atom/eswb/src/lib/include/public)
 target_include_directories(atomic_demo_panel_fsm-static PRIVATE ../../../../catpilot/c-atom/function)
 target_include_directories(atomic_demo_panel_fsm-static PUBLIC 
-    ../../../../catpilot/c-atom/atomics/core/type/u32
     ../../../../catpilot/c-atom/atomics/core/type/bool
+    ../../../../catpilot/c-atom/atomics/core/type/u32
 )
 target_link_libraries(atomic_demo_panel_fsm-static PUBLIC bsp-static)
