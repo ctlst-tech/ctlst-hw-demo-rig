@@ -111,6 +111,8 @@ cont_output_phase = DataSourceEswbTopic('cont_output_phase', path=f'{basic_topic
 cont_output_overheat_tc = DataSourceEswbTopic('cont_output_overheat_tc', path=f'{basic_topics_root}/cont/output/overheat_tc')
 cont_output_overheat_th = DataSourceEswbTopic('cont_output_overheat_th', path=f'{basic_topics_root}/cont/output/overheat_th')
 cont_output_status = DataSourceEswbTopic('cont_output_status', path=f'{basic_topics_root}/cont/output/status')
+cont_rpm1 = DataSourceEswbTopic('cont_rpm1', path=f'{basic_topics_root}/cont/output/rpm1')
+cont_rpm2 = DataSourceEswbTopic('cont_rpm2', path=f'{basic_topics_root}/cont/output/rpm2')
 
 cont_error = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/error')
 cont_mode = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/mode')
@@ -213,6 +215,8 @@ io_cps2_step_chart = EwChart([io_cps2_step], title="cps 2 step", labels={'left':
 io_cps2_tooth_chart = EwChart([io_cps2_tooth], title="cps 2 tooth", labels={'left': '', 'bottom': 'time'})
 io_cps3_period_chart = EwChart([io_cps3_period], title="cps 3 period", labels={'left': 'us', 'bottom': 'time'})
 io_cps4_period_chart = EwChart([io_cps4_period], title="cps 4 period", labels={'left': 'us', 'bottom': 'time'})
+cont_rpm1_chart = EwChart([cont_rpm1], title="rpm 1", labels={'left': 'rpm', 'bottom': 'time'})
+cont_rpm2_chart = EwChart([cont_rpm2], title="rpm 2", labels={'left': 'rpm', 'bottom': 'time'})
 io_in1_chart = EwChart([io_in1], title="IN 1", labels={'left': '0/1', 'bottom': 'time'})
 
 cont_output_motor_chart = EwChart([cont_output_motor], title="Motor control signal", labels={'left': '[0, 1]', 'bottom': 'time'})
@@ -259,6 +263,7 @@ io_tab.add_widget(EwGroup([io_button1_chart, io_button2_chart, io_button3_chart,
 io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
 io_tab.add_widget(EwGroup([io_cps2_period_chart, io_cps2_step_chart, io_cps2_tooth_chart]))
 io_tab.add_widget(EwGroup([io_in1_chart]))
+io_tab.add_widget(EwGroup([cont_rpm1_chart, cont_rpm2_chart]))
 
 cont_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart, cont_output_relay_chart]))
 cont_tab.add_widget(EwGroup([cont_output_out1_chart, cont_output_out2_chart]))

@@ -7,10 +7,10 @@
             <i alias="button2" type="core.type.bool"/>
             <i alias="button3" type="core.type.bool"/>
             <i alias="button4" type="core.type.bool"/>
-            <i alias="cps1_period" type="core.type.u32"/>
-            <i alias="cps2_period" type="core.type.u32"/>
-            <i alias="cps3_period" type="core.type.u32"/>
-            <i alias="cps4_period" type="core.type.u32"/>
+            <i alias="cps1_period" type="core.type.f64"/>
+            <i alias="cps2_period" type="core.type.f64"/>
+            <i alias="cps3_period" type="core.type.f64"/>
+            <i alias="cps4_period" type="core.type.f64"/>
             <i alias="r_left" type="core.type.f64"/>
             <i alias="r_right" type="core.type.f64"/>
             <i alias="omega" type="core.type.v3f64"/>
@@ -39,6 +39,8 @@
             <o alias="error" type="core.type.u32"/>
             <o alias="overheat_tc_status" type="core.type.u32"/>
             <o alias="overheat_th_status" type="core.type.u32"/>
+            <o alias="rpm1" type="core.type.f64"/>
+            <o alias="rpm2" type="core.type.f64"/>
         </outputs>
     </spec>
 
@@ -75,6 +77,29 @@
 
         <f name="thermistor_threshold" by_spec="core.source.constant">
             <param alias="value">4.65</param>
+        </f>
+        
+        <!-- RPM scaling -->
+        <f name="cps1_freq" by_spec="core.math.divide">
+            <in alias="dividend">one/output</in>
+            <in alias="divisior">inputs/cps1_period</in>
+            <param alias="min_divisior">0.0000001</param>
+        </f>
+
+        <f name="cps2_freq" by_spec="core.math.divide">
+            <in alias="dividend">one/output</in>
+            <in alias="divisior">inputs/cps2_period</in>
+            <param alias="min_divisior">0.0000001</param>
+        </f>
+
+        <f name="cps1_rpm" by_spec="core.math.gain">
+            <in alias="input">cps1_freq/output</in>
+            <param alias="gain">26000000.0</param>
+        </f>
+
+        <f name="cps2_rpm" by_spec="core.math.gain">
+            <in alias="input">cps2_freq/output</in>
+            <param alias="gain">26000000.0</param>
         </f>
 
         <!-- Potentiometers -->
@@ -378,5 +403,7 @@
         <link alias="error">panel_fsm/error</link>
         <link alias="overheat_th_status">overheat_th_comp/output</link>
         <link alias="overheat_tc_status">overheat_tc_comp/output</link>
+        <link alias="rpm1">cps1_rpm/output</link>
+        <link alias="rpm2">cps2_rpm/output</link>
     </link_outputs>
 </flow>

@@ -23,12 +23,12 @@
             <o alias="button2" type="core.type.bool"/>
             <o alias="button3" type="core.type.bool"/>
             <o alias="button4" type="core.type.bool"/>
-            <o alias="cps1_period" type="core.type.u32"/>
-            <o alias="cps2_period" type="core.type.u32"/>
+            <o alias="cps1_period" type="core.type.f64"/>
+            <o alias="cps2_period" type="core.type.f64"/>
             <o alias="cps2_tooth" type="core.type.u32"/>
             <o alias="cps2_step" type="core.type.u32"/>
-            <o alias="cps3_period" type="core.type.u32"/>
-            <o alias="cps4_period" type="core.type.u32"/>
+            <o alias="cps3_period" type="core.type.f64"/>
+            <o alias="cps4_period" type="core.type.f64"/>
             <o alias="in1" type="core.type.bool"/>
         </outputs>
     </spec>
