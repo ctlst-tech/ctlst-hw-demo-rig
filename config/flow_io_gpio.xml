@@ -25,8 +25,6 @@
             <o alias="button4" type="core.type.bool"/>
             <o alias="cps1_period" type="core.type.f64"/>
             <o alias="cps2_period" type="core.type.f64"/>
-            <o alias="cps2_tooth" type="core.type.u32"/>
-            <o alias="cps2_step" type="core.type.u32"/>
             <o alias="cps3_period" type="core.type.f64"/>
             <o alias="cps4_period" type="core.type.f64"/>
             <o alias="in1" type="core.type.bool"/>
@@ -110,21 +108,15 @@
         </f>
         <f name="cps1" by_spec="ctlst.io.pwm_in">
             <param alias="channel">3</param>
-            <param alias="max">10000</param>
+            <param alias="max">100000</param>
             <param alias="min">1</param>
             <param alias="bipolar">true</param>
         </f>
-        <!-- <f name="cps2" by_spec="ctlst.io.pwm_in">
+        <f name="cps2" by_spec="ctlst.io.pwm_in">
             <param alias="channel">2</param>
-            <param alias="max">10000</param>
+            <param alias="max">100000</param>
             <param alias="min">1</param>
             <param alias="bipolar">true</param>
-        </f> -->
-        <f name="cps2" by_spec="ctlst.io.phase_in">
-            <param alias="channel">2</param>
-            <param alias="total_teeth">26</param>
-            <param alias="missing_tooth">1</param>
-            <param alias="tooth_step">6</param>
         </f>
         <f name="cps3" by_spec="ctlst.io.pwm_in">
             <param alias="channel">14</param>
@@ -141,6 +133,7 @@
         <f name="in1" by_spec="ctlst.io.gpio_in">
             <param alias="channel">11</param>
         </f>
+
     </functions>
 
     <link_outputs>
@@ -150,8 +143,6 @@
         <link alias="button4">button4/output</link>
         <link alias="cps1_period">cps1/period</link>
         <link alias="cps2_period">cps2/period</link>
-        <link alias="cps2_tooth">cps2/tooth</link>
-        <link alias="cps2_step">cps2/step</link>
         <link alias="cps3_period">cps3/period</link>
         <link alias="cps4_period">cps4/period</link>
         <link alias="in1">in1/output</link>

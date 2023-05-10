@@ -50,7 +50,7 @@
             <in alias="l1, l2, l3, l4">cont_bus/$alias</in>
             <in alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</in>
             <out alias="button1, button2, button3, button4">io_bus/$alias</out>
-            <out alias="cps1_period, cps2_period, cps2_step, cps2_tooth, cps3_period, cps4_period">io_bus/$alias</out>
+            <out alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</out>
             <out alias="in1, in2, in3, in4, in5, in6">io_bus/$alias</out>
         </connect>
     </task>
@@ -143,7 +143,7 @@
 
     <bridge name="digital" priority="2" clk_method="timer" clk_period="50" to="gcu_bus/dev/io">
         <source alias="button1, button2, button3, button4">io_bus/$alias</source>
-        <source alias="cps1_period, cps2_period, cps2_step, cps2_tooth, cps3_period, cps4_period">io_bus/$alias</source>
+        <source alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</source>
         <source alias="in1">io_bus/in1</source>
     </bridge>
 

@@ -92,8 +92,6 @@ io_button3 = DataSourceEswbTopic('io_button3', path=f'{basic_topics_root}/dev/io
 io_button4 = DataSourceEswbTopic('io_button4', path=f'{basic_topics_root}/dev/io/digital/button4')
 io_cps1_period = DataSourceEswbTopic('io_cps1_period', path=f'{basic_topics_root}/dev/io/digital/cps1_period')
 io_cps2_period = DataSourceEswbTopic('io_cps2_period', path=f'{basic_topics_root}/dev/io/digital/cps2_period')
-io_cps2_step = DataSourceEswbTopic('io_cps2_step', path=f'{basic_topics_root}/dev/io/digital/cps2_step')
-io_cps2_tooth = DataSourceEswbTopic('io_cps2_tooth', path=f'{basic_topics_root}/dev/io/digital/cps2_tooth')
 io_cps3_period = DataSourceEswbTopic('io_cps3_period', path=f'{basic_topics_root}/dev/io/digital/cps3_period')
 io_cps4_period = DataSourceEswbTopic('io_cps4_period', path=f'{basic_topics_root}/dev/io/digital/cps4_period')
 io_in1 = DataSourceEswbTopic('io_in1', path=f'{basic_topics_root}/dev/io/digital/in1')
@@ -111,8 +109,8 @@ cont_output_phase = DataSourceEswbTopic('cont_output_phase', path=f'{basic_topic
 cont_output_overheat_tc = DataSourceEswbTopic('cont_output_overheat_tc', path=f'{basic_topics_root}/cont/output/overheat_tc')
 cont_output_overheat_th = DataSourceEswbTopic('cont_output_overheat_th', path=f'{basic_topics_root}/cont/output/overheat_th')
 cont_output_status = DataSourceEswbTopic('cont_output_status', path=f'{basic_topics_root}/cont/output/status')
-cont_rpm1 = DataSourceEswbTopic('cont_rpm1', path=f'{basic_topics_root}/cont/output/rpm1')
-cont_rpm2 = DataSourceEswbTopic('cont_rpm2', path=f'{basic_topics_root}/cont/output/rpm2')
+cont_rpm1 = DataSourceEswbTopic('cont_rpm1', path=f'{basic_topics_root}/cont/output/rpm1', mult=60.0)
+cont_rpm2 = DataSourceEswbTopic('cont_rpm2', path=f'{basic_topics_root}/cont/output/rpm2', mult=60.0)
 
 cont_error = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/error')
 cont_mode = DataSourceEswbTopic('cont_state', path=f'{basic_topics_root}/cont/internal/mode')
@@ -211,12 +209,10 @@ io_button3_chart = EwChart([io_button3], title="Button 3", labels={'left': '0/1'
 io_button4_chart = EwChart([io_button4], title="Button 4", labels={'left': '0/1', 'bottom': 'time'})
 io_cps1_period_chart = EwChart([io_cps1_period], title="cps 1 period", labels={'left': 'us', 'bottom': 'time'})
 io_cps2_period_chart = EwChart([io_cps2_period], title="cps 2 period", labels={'left': 'us', 'bottom': 'time'})
-io_cps2_step_chart = EwChart([io_cps2_step], title="cps 2 step", labels={'left': '', 'bottom': 'time'})
-io_cps2_tooth_chart = EwChart([io_cps2_tooth], title="cps 2 tooth", labels={'left': '', 'bottom': 'time'})
 io_cps3_period_chart = EwChart([io_cps3_period], title="cps 3 period", labels={'left': 'us', 'bottom': 'time'})
 io_cps4_period_chart = EwChart([io_cps4_period], title="cps 4 period", labels={'left': 'us', 'bottom': 'time'})
-cont_rpm1_chart = EwChart([cont_rpm1], title="rpm 1", labels={'left': 'rpm', 'bottom': 'time'})
-cont_rpm2_chart = EwChart([cont_rpm2], title="rpm 2", labels={'left': 'rpm', 'bottom': 'time'})
+cont_rpm1_chart = EwChart([cont_rpm1], title="Motor 1 RPM", labels={'left': 'RPM', 'bottom': 'time'})
+cont_rpm2_chart = EwChart([cont_rpm2], title="Motor 2 RPM", labels={'left': 'RPM', 'bottom': 'time'})
 io_in1_chart = EwChart([io_in1], title="IN 1", labels={'left': '0/1', 'bottom': 'time'})
 
 cont_output_motor_chart = EwChart([cont_output_motor], title="Motor control signal", labels={'left': '[0, 1]', 'bottom': 'time'})
@@ -234,7 +230,7 @@ cont_output_overheat_th_chart = EwChart([cont_output_overheat_th], title="Overhe
 cont_output_status_chart = EwChart([cont_output_status], title="Status", labels={'left': '', 'bottom': 'time'})
 
 # Main
-ai = EwAttitudeIndicator([roll, pitch])
+ai = EwAttitudeIndicator([pitch, roll])
 hi = EwHeadingIndicator([yaw])
 
 state_table = EwTable(caption='Information', data_sources=[
@@ -260,10 +256,8 @@ adc_tab.add_widget(EwGroup([io_thermocouple_5_chart, io_thermocouple_6_chart, io
 adc_tab.add_widget(EwGroup([io_r_left_chart, io_r_right_chart]))
 
 io_tab.add_widget(EwGroup([io_button1_chart, io_button2_chart, io_button3_chart, io_button4_chart]))
-io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
-io_tab.add_widget(EwGroup([io_cps2_period_chart, io_cps2_step_chart, io_cps2_tooth_chart]))
+io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps2_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
 io_tab.add_widget(EwGroup([io_in1_chart]))
-io_tab.add_widget(EwGroup([cont_rpm1_chart, cont_rpm2_chart]))
 
 cont_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart, cont_output_relay_chart]))
 cont_tab.add_widget(EwGroup([cont_output_out1_chart, cont_output_out2_chart]))
@@ -281,6 +275,7 @@ main_tab.add_widget(EwGroup([state_table, ai, hi]))
 main_tab.add_widget(EwGroup([roll_pitch_chart, accel_chart, gyro_chart, altitude_bar_chart]))
 main_tab.add_widget(EwGroup([io_thermistor_5_chart, io_thermocouple_5_chart]))
 main_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart]))
+main_tab.add_widget(EwGroup([cont_rpm1_chart, cont_rpm2_chart]))
 
 sdtl_tab.add_widget(EwGroup([mon.get_stat_widget()]))
 
