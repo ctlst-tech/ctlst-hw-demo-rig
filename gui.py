@@ -155,13 +155,13 @@ accel_chart = EwChart([ax, ay, az],
                 labels={'left': 'm/s²', 'bottom': 'time'})
 gyro_chart = EwChart([wx, wy, wz], 
                title="Angular rates",
-               labels={'left': 'grad/s', 'bottom': 'time'})
+               labels={'left': 'deg/s', 'bottom': 'time'})
 roll_pitch_chart = EwChart([roll, pitch], 
                      title="Angles",
-                     labels={'left': 'grad', 'bottom': 'time'})
+                     labels={'left': 'deg', 'bottom': 'time'})
 yaw_chart = EwChart([yaw], 
               title="Angles",
-              labels={'left': 'grad', 'bottom': 'time'})
+              labels={'left': 'deg', 'bottom': 'time'})
 
 accel_gyro_temp_chart = EwChart([tax, tay, taz, twx, twy, twz], 
                           title="Sensor temperatures",
