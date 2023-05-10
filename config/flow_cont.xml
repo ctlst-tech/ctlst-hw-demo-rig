@@ -94,12 +94,12 @@
 
         <f name="cps1_rpm" by_spec="core.math.gain">
             <in alias="input">cps1_freq/output</in>
-            <param alias="gain">26000000.0</param>
+            <param alias="gain">38461.538461538</param>
         </f>
 
         <f name="cps2_rpm" by_spec="core.math.gain">
             <in alias="input">cps2_freq/output</in>
-            <param alias="gain">26000000.0</param>
+            <param alias="gain">38461.538461538</param>
         </f>
 
         <!-- Potentiometers -->
