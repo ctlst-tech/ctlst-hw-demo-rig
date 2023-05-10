@@ -92,6 +92,8 @@ io_button3 = DataSourceEswbTopic('io_button3', path=f'{basic_topics_root}/dev/io
 io_button4 = DataSourceEswbTopic('io_button4', path=f'{basic_topics_root}/dev/io/digital/button4')
 io_cps1_period = DataSourceEswbTopic('io_cps1_period', path=f'{basic_topics_root}/dev/io/digital/cps1_period')
 io_cps2_period = DataSourceEswbTopic('io_cps2_period', path=f'{basic_topics_root}/dev/io/digital/cps2_period')
+io_cps2_phase = DataSourceEswbTopic('io_cps2_phase', path=f'{basic_topics_root}/dev/io/digital/cps2_phase')
+io_cps2_tooth = DataSourceEswbTopic('io_cps2_tooth', path=f'{basic_topics_root}/dev/io/digital/cps2_tooth')
 io_cps3_period = DataSourceEswbTopic('io_cps3_period', path=f'{basic_topics_root}/dev/io/digital/cps3_period')
 io_cps4_period = DataSourceEswbTopic('io_cps4_period', path=f'{basic_topics_root}/dev/io/digital/cps4_period')
 io_in1 = DataSourceEswbTopic('io_in1', path=f'{basic_topics_root}/dev/io/digital/in1')
@@ -207,6 +209,8 @@ io_button3_chart = EwChart([io_button3], title="Button 3", labels={'left': '0/1'
 io_button4_chart = EwChart([io_button4], title="Button 4", labels={'left': '0/1', 'bottom': 'time'})
 io_cps1_period_chart = EwChart([io_cps1_period], title="cps 1 period", labels={'left': 'us', 'bottom': 'time'})
 io_cps2_period_chart = EwChart([io_cps2_period], title="cps 2 period", labels={'left': 'us', 'bottom': 'time'})
+io_cps2_phase_chart = EwChart([io_cps2_phase], title="cps 2 phase", labels={'left': 'us', 'bottom': 'time'})
+io_cps2_tooth_chart = EwChart([io_cps2_tooth], title="cps 2 tooth", labels={'left': 'us', 'bottom': 'time'})
 io_cps3_period_chart = EwChart([io_cps3_period], title="cps 3 period", labels={'left': 'us', 'bottom': 'time'})
 io_cps4_period_chart = EwChart([io_cps4_period], title="cps 4 period", labels={'left': 'us', 'bottom': 'time'})
 io_in1_chart = EwChart([io_in1], title="IN 1", labels={'left': '0/1', 'bottom': 'time'})
@@ -236,7 +240,7 @@ state_table = EwTable(caption='Information', data_sources=[
     cont_state_overheat_th_enum,
     roll,
     pitch,
-    ])
+])
 
 # Add widgets
 imu_tab.add_widget(accel_chart)
@@ -252,7 +256,8 @@ adc_tab.add_widget(EwGroup([io_thermocouple_5_chart, io_thermocouple_6_chart, io
 adc_tab.add_widget(EwGroup([io_r_left_chart, io_r_right_chart]))
 
 io_tab.add_widget(EwGroup([io_button1_chart, io_button2_chart, io_button3_chart, io_button4_chart]))
-io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps2_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
+io_tab.add_widget(EwGroup([io_cps1_period_chart, io_cps3_period_chart, io_cps4_period_chart]))
+io_tab.add_widget(EwGroup([io_cps2_period_chart, io_cps2_phase_chart, io_cps2_tooth_chart]))
 io_tab.add_widget(EwGroup([io_in1_chart]))
 
 cont_tab.add_widget(EwGroup([cont_output_motor_chart, cont_output_servo_chart, cont_output_relay_chart]))
