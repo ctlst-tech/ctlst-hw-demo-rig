@@ -50,7 +50,8 @@
             <in alias="l1, l2, l3, l4">cont_bus/$alias</in>
             <in alias="phase, overheat_tc, overheat_th, status">cont_bus/$alias</in>
             <out alias="button1, button2, button3, button4">io_bus/$alias</out>
-            <out alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</out>
+            <out alias="cps1_period, cps1_tooth, cps1_step">io_bus/$alias</out>
+            <out alias="cps2_period, cps2_tooth, cps2_step">io_bus/$alias</out>
             <out alias="in1, in2, in3, in4, in5, in6">io_bus/$alias</out>
         </connect>
     </task>
@@ -98,7 +99,7 @@
         <connect>
             <in alias="button1, button2, button3, button4">io_bus/$alias</in>
             <in alias="r_left, r_right">io_bus/$alias</in>
-            <in alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</in>
+            <in alias="cps1_period, cps2_period">io_bus/$alias</in>
             <in alias="roll, pitch, omega">nav_bus/$alias</in>
             <in alias="ind_probe">gen_bus/mean1</in>
             <in alias="thermocouple">io_bus/thermocouple_5</in>
@@ -143,7 +144,8 @@
 
     <bridge name="digital" priority="2" clk_method="timer" clk_period="50" to="gcu_bus/dev/io">
         <source alias="button1, button2, button3, button4">io_bus/$alias</source>
-        <source alias="cps1_period, cps2_period, cps3_period, cps4_period">io_bus/$alias</source>
+        <source alias="cps1_period, cps1_tooth, cps1_step">io_bus/$alias</source>
+        <source alias="cps2_period, cps2_tooth, cps2_step">io_bus/$alias</source>
         <source alias="in1">io_bus/in1</source>
     </bridge>
 
