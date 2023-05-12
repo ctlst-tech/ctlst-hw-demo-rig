@@ -13,6 +13,8 @@ BIN="${PWD}/build/firmware/catom-launcher"
 UBIN="/fs/etfs/bin/catom-launcher"
 SCRIPT="${PWD}/scripts/catpilot.sh"
 USCRIPT="/fs/etfs/bin/catpilot"
+AUTO="${PWD}/scripts/autoexec.sh"
+UAUTO="/fs/etfs/bin/autoexec"
 SUBDIR="config"
 CONF_TARGET="fs/etfs/catpilot"
 ftp="${PWD}/scripts/ftp.sh"
@@ -35,6 +37,7 @@ END_SCRIPT
 
 sh ${ftp} ${HOST} ${BIN} ${UBIN}
 sh ${ftp} ${HOST} ${SCRIPT} ${USCRIPT}
+sh ${ftp} ${HOST} ${AUTO} ${UAUTO}
 
 ftp -n $HOST $PORT << END_SCRIPT
 verbose
@@ -43,6 +46,7 @@ quote PASS $PASSWD
 bin
 chmod 777 $USCRIPT
 chmod 777 $UBIN
+chmod 777 $UAUTO
 quit
 END_SCRIPT
 

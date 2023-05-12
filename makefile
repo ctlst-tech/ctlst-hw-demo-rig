@@ -1,7 +1,7 @@
 
-atomics:
+atomics_demo:
 	@echo Generating atomics functions code
-	@./catpilot/c-atom/tools/fspecgen.py --catom_path catpilot/c-atom --code --cmake --registry_c ./atomics_reg.c --atomics_dirs catpilot:catpilot/atomics/ctlst catom:catpilot/c-atom/atomics
+	@./catpilot/c-atom/tools/fspecgen.py --catom_path catpilot/c-atom --code --cmake --registry_c ./atomics_reg.c --atomics_dirs demo:atomics/demo catpilot:catpilot/atomics/ctlst catom:catpilot/c-atom/atomics
 
 xmlinline:
 	@echo Inlining XML configs
